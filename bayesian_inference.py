@@ -1,25 +1,32 @@
 
 
-
+"""
+Bayesian inference module for updating beliefs about response 
+category probabilities based on observed data.
+"""
 
 import numpy as np
 from scipy.stats import dirichlet, beta
+import arviz
+
+from actors import *
 
 class BayesianInference:
 
-    def __init__(self, prior_alpha=np.ones(7)*1.1):
+    def __init__(self, question:Question, prior_alpha:np.ndarray=np.ones(7)*1.1):
+
+        self.question = question
         self.prior_alpha = prior_alpha
         self.prior_dist = dirichlet(self.prior_alpha)
         self.posterior_dist = None
         self.posterior_alpha = None
         
     
-    def bayesian_inference(self, counts):
+    def bayesian_inference(self):
 
         # update the distribution with the counts    
-        self.posterior_alpha = self.prior_alpha + counts.values
+        self.posterior_alpha = self.prior_alpha + self.question.counts.values
         self.posterior_dist = dirichlet(self.posterior_alpha)
-        print(f"{self.posterior_alpha = }")
         return self.posterior_dist
 
     def mode(self):
@@ -40,14 +47,15 @@ class BayesianInference:
     
     def variance(self):
         return self.posterior_dist.var()
-
-    def credible_interval(self, cred_mass=0.95):
-        lower_bound = self.posterior_dist.ppf((1 - cred_mass) / 2)
-        upper_bound = self.posterior_dist.ppf(1 - (1 - cred_mass) / 2)
-        return lower_bound, upper_bound
     
+    def covariance_matrix(self):
+        return self.posterior_dist.cov()
 
-    def marginal_interval(self, confidence=0.95):
+    def credible_interval(self, confidence=0.95):
+        """
+        find where the cumulative distribution function (CDF) of 
+        the posterior distribution equals the lower and upper tail probabilities
+        """
 
 
         # alpha = np.array(alpha)
