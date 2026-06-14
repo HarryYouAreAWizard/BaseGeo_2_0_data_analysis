@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-from axes import detect_axis, normalize_answer
+from axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
 
 class Participant:
     def __init__(self, id, survey, answers):
@@ -19,6 +19,7 @@ class Question:
         self.responses = responses
         self.axis = detect_axis(responses)
         self.counts = self.get_counts()
+        # self.counts = None
         self.total_counts = len(responses)
 
 
@@ -37,8 +38,12 @@ class Question:
         """get the counts of each response category as a pandas Series, 
         using the axis labels as index. If the axis is not detected, 
         return the counts of unique normalized responses."""
-        if self.axis is None:
-            self.detect_axis()
+        
+        if self.axis is (None, None):
+            return
+        
+        # # remove the responses that are in "UNIVERSAL_OPTIONS" from the counts, as they are not part of the actual axis
+        # self.responses = [response for response in self.responses if response not in UNIVERSAL_OPTIONS]
 
         x = [normalize_answer(v) for v in self.responses]   # clean/normalize the responses
         x  = pd.Series(x)                                   #  convert to pd.Series
@@ -46,9 +51,8 @@ class Question:
         # reindex to ensure all axis labels are present, filling missing ones with 0
         counts = x.reindex(self.axis[1],                    # the actual axis labels 
                            fill_value=0)                    
+        self.counts = counts
         return counts
-
-
 
     def sample_mean_and_variance(self):
         counts = self.counts
@@ -66,19 +70,29 @@ class Survey:
         self.path = path
         self.data = pd.read_excel(path)
         self.ids = self.data["$submission_id"].tolist()
+        self.questions = self.get_questions()
     
-    def participants(self):
+    def get_participants(self):
         self.participants = []
         for id in self.ids:
             answers = self.data[self.data["$submission_id"] == id]
             participant = Participant(id, self, answers)
             self.participants.append(participant)
         return self.participants
-        
-    def questions(self):
+    
+    def get_questions(self):
         self.questions = []
         for key in self.data.keys():
             question = Question(key, self.data[key].tolist())
             self.questions.append(question)
 
         return self.questions
+    
+    def search(self, query):
+        """Search for questions matching the query and return a list of matching questions."""
+        # matching_questions = []
+        for question in self.get_questions():
+            if query.lower() in question.raw_text.lower():
+                return question
+        # return matching_questions
+

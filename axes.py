@@ -1,69 +1,14 @@
+
+
 import pandas as pd
 import re
-
-AXES = {
-    "frequency": [
-        "1. Never",
-        "2. Very rerely",
-        "3. Rerely",
-        "4. Sometimes",
-        "5. Often",
-        "6. Very often",
-        "7. Continuously",
-    ],
-    "agreement_verbose": [
-        "1. Strongly disagree",
-        "2. Disagree",
-        "3. Slightly disagree",
-        "4. Neutral",
-        "5. Slightly agree",
-        "6. Agree",
-        "7. Strongly agree",
-    ],
-    "agreement": [
-        "1. Strongly disagree",
-        "2.",
-        "3.",
-        "4. Neutral",
-        "5.",
-        "6.",
-        "7. Strongly agree",
-    ],
-    "extent": [
-        "1. Extremely little",
-        "2.",
-        "3.",
-        "4. Neutral",
-        "5.",
-        "6.",
-        "7. Extremely well",
-    ],
-    "importance": [
-        "1. Not important",
-        "2.",
-        "3.",
-        "4. Neutral",
-        "5.",
-        "6.",
-        "7. Extremely important",
-        "Not applicable",
-    ],
-    "schools": [
-        "First year bachelor level"
-        "Second and/or third year bachelor level"
-        "Master level"
-        "PhD level"
-        "Supplementary training (Etter - og videreutdanning )"
-        "Research schools"
-        "Other"
-    ]
-}
+from axes_container import AXES
 
 UNIVERSAL_OPTIONS = [
     "Not applicable",
     "No idea",
     "I don't know",
-    "I don&#39;t know"
+    "I don&#39;t know",
 ]
 
 def normalize_answer(value):
@@ -95,24 +40,37 @@ def detect_axis(values):
     labels.discard(None)
 
     # check which axes match the labels
-    matches = []
-    for axis_name, axis_labels in AXES.items():
-        allowed = set(axis_labels) or set(UNIVERSAL_OPTIONS)
-        if labels.issubset(allowed):
-            matches.append(axis_name)
+    # matches = []
+    for axis_name in AXES.keys():
+        for axis_variation, axis_labels in AXES[axis_name].items():
+            allowed = set(axis_labels) or set(UNIVERSAL_OPTIONS)
+            if labels.issubset(allowed):
+                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+                return axis
+            # try comparing with the first choice in the axis
+            if axis_labels[0] in labels:
+                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+                return axis
+            # try comparing it with the last choice in the clean version of the axis
+            if AXES[axis_name][axis_name][-1] in labels:
+                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+                return axis
+
+    return None, None
+
 
     # if exactly one axis matches, return it with its labels (including any universal options that are present)
-    if len(matches) == 1:
+    if len(matches) >= 1:
         name = matches[0]
-        plot_axis = AXES[name] + [opt for opt in UNIVERSAL_OPTIONS if opt in labels]
-        return name, plot_axis, []
+        plot_axis = AXES[name]# + [opt for opt in UNIVERSAL_OPTIONS if opt in labels]
+        return name, plot_axis
 
     # if no axes match, return "unknown" with the unique labels (sorted for consistency)
     if len(matches) == 0:
-        return "unknown", sorted(labels), sorted(labels)
+        return "unknown", sorted(labels) #, sorted(labels)
 
     # len(matches) > 1: this should not happen if axes are truly disjoint
-    return "ambiguous", sorted(labels), sorted(labels)
+    # return "ambiguous", sorted(labels) #, sorted(labels)
 
 
 def extract_counts(values):
@@ -132,5 +90,7 @@ def extract_counts(values):
 
     counts = pd.Series(normalized).value_counts().reindex(axis_labels, fill_value=0)
     return counts, axis_name, unmatched
+
+
 
 
