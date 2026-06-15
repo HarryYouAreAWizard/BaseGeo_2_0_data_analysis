@@ -197,7 +197,7 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None, 
                     + f"question: {sanitize_key(example_question_1.raw_text)}\n",
                     fontsize=fig_title_fs)
     # plot confidence intervals of difference of mean scores
-    ax_dif_prop_dist.axvline(dif_conf_interval[0], color='red', linestyle='--', label="95% conf. interval (Percentiles)")
+    ax_dif_prop_dist.axvline(dif_conf_interval[0], color='red', linestyle='--', label="90% conf. interval (Percentiles)")
     ax_dif_prop_dist.axvline(dif_conf_interval[1], color='red', linestyle='--')
     ax_dif_prop_dist.axvline(dif_conf_interval_gaussian_assumption[0], color='blue', linestyle='--', label="95% conf. interval (Gaussian assumption)")
     ax_dif_prop_dist.axvline(dif_conf_interval_gaussian_assumption[1], color='blue', linestyle='--')

@@ -52,19 +52,28 @@ class MonteCarloSampler:
         return self.expected_values - other.expected_values
 
 
-    def confidence_interval_of_differences_percentile(self, other, confidence=0.95):
+    def confidence_interval_of_differences_percentile(self, other, confidence=0.90):
         """Calculate the confidence interval for the difference in expected values between self and other.
-        This is done by calculating the distribution of differences and then finding the percentiles corresponding to the confidence level."""
+        This is done by calculating the distribution of differences and then finding the percentiles corresponding 
+        to the confidence level.
+        
+        confidence=0.90 means we want to find the interval that contains the middle 90% of the distribution of differences, 
+        which leaves 5% in each tail
+        """
 
         dif_samples = self.probability_dist_of_differences(other)
         lower_bound = np.percentile(dif_samples, (0.5 - confidence*0.5) * 100)
         upper_bound = np.percentile(dif_samples, (0.5 + confidence*0.5) * 100)
         return lower_bound, upper_bound
     
-    def confidence_interval_of_differences_gaussian_assumption(self, other, confidence=0.95):
+    def confidence_interval_of_differences_gaussian_assumption(self, other, confidence=0.90):
         """Calculate the confidence interval for the difference in expected values between self and other,
         assuming that the distribution of differences is approximately Gaussian. This is done by calculating
-        the mean and standard deviation of the difference distribution and then using the appropriate z-score for the confidence level."""
+        the mean and standard deviation of the difference distribution and then using the appropriate z-score 
+        for the confidence level.
+        
+        confidence=0.90 means we want to find the interval that contains the middle 90% of the 
+        distribution of differences, which leaves 5% in each tail"""
 
         dif_samples = self.probability_dist_of_differences(other)
         mean_diff = dif_samples.mean()
