@@ -17,7 +17,7 @@ from plot_config import *
 from bayesian_inference import *
 
 global data_folder, figure_folder
-data_folder = "BaseGeo_2_0\\all data exel"
+data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
 
 # control flags
@@ -171,7 +171,8 @@ def plot_posterior(example_question_1=None, uit_p_mean=None, uit_p_variance=None
     fig_posterior_dist.savefig("..\\" + figure_folder + "\\" 
                 + folder + "\\" + f"posterior {sanitize_key(example_question_1.raw_text)}.png")
 
-def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=None, scale_expected_value_1=None, scale_expected_value_2=None,
+def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=None, 
+                                    scale_expected_value_1=None, scale_expected_value_2=None,
                                 scale_variance_1=None, scale_variance_2=None, folder=None):
 
     # plot the mean score with error bars (standard deviation)
@@ -189,7 +190,8 @@ def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=
     fig_sample_means.savefig("..\\" + figure_folder + "\\" 
                 + folder + "\\" + f"expected_value_dist {sanitize_key(example_question_1.raw_text)}.png")
 
-def plot_distribution_of_differences(example_question_1=None, dif_samples=None, dif_conf_interval=None, dif_conf_interval_gaussian_assumption=None, folder=None):
+def plot_distribution_of_differences(example_question_1=None, dif_samples=None, 
+                                     dif_credible_interval=None, dif_credible_interval_gaussian_assumption=None, folder=None):
     # plot the distribution of the differences of mean scores from the Monte Carlo simulations
     fig_dif_prop_dist, ax_dif_prop_dist = subplots(figsize=(10, 5))
     ax_dif_prop_dist.hist(dif_samples, bins=1000, density=True)
@@ -272,8 +274,8 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
 
     # UiT - UiO
     dif_samples = MC_1.probability_dist_of_differences(MC_2)
-    dif_conf_interval = MC_1.confidence_interval_of_differences_percentile(MC_2)
-    dif_conf_interval_gaussian_assumption = MC_1.confidence_interval_of_differences_gaussian_assumption(MC_2)
+    dif_credible_interval = MC_1.credible_interval_of_differences_percentile(MC_2)
+    dif_credible_interval_gaussian_assumption = MC_1.credible_interval_of_differences_gaussian_assumption(MC_2)
 
     scale_expected_value_1 = MC_1.expected_value()
     scale_expected_value_2 = MC_2.expected_value()
@@ -281,7 +283,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
     scale_variance_2 = MC_2.variance()
 
 
-    significant = dif_conf_interval[0] > 0  or dif_conf_interval[1] < 0
+    significant = dif_credible_interval[0] > 0  or dif_credible_interval[1] < 0
     if gate_on_significance and not significant:
         return
 
@@ -295,28 +297,48 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
     # ---------------------------------plotting---------------------------------
     plot_histogram(example_question_1=example_question_1, example_question_2=example_question_2, folder=folder)
 
-    plot_prior(example_question_1=example_question_1, uit_p_prior_mean=uit_p_prior_mean, uit_p_prior_variance=uit_p_prior_variance, BI1=BI1,
-               example_question_2=example_question_2, uio_p_prior_mean=uio_p_prior_mean, uio_p_prior_variance=uio_p_prior_variance, BI2=BI2,
-               folder=folder, with_marginalized_distributions=True)
+    plot_prior(example_question_1=example_question_1, 
+               uit_p_prior_mean=uit_p_prior_mean, 
+               uit_p_prior_variance=uit_p_prior_variance, 
+               BI1=BI1, 
+               example_question_2=example_question_2, 
+               uio_p_prior_mean=uio_p_prior_mean, 
+               uio_p_prior_variance=uio_p_prior_variance, 
+               BI2=BI2,
+               folder=folder, 
+               with_marginalized_distributions=True)
 
-    plot_posterior(example_question_1=example_question_1, uit_p_mean=uit_p_mean, uit_p_variance=uit_p_variance, BI1=BI1,
-                   example_question_2=example_question_2, uio_p_mean=uio_p_mean, uio_p_variance=uio_p_variance, BI2=BI2,
-                   folder=folder, with_marginalized_distributions=True)
+    plot_posterior(example_question_1=example_question_1, 
+                   uit_p_mean=uit_p_mean, 
+                   uit_p_variance=uit_p_variance, BI1=BI1,
+                   example_question_2=example_question_2, 
+                   uio_p_mean=uio_p_mean, 
+                   uio_p_variance=uio_p_variance, BI2=BI2,
+                   folder=folder, 
+                   with_marginalized_distributions=True)
     
-    plot_mean_score_with_error_bars(example_question_1=example_question_1, example_question_2=example_question_2,
-                                scale_expected_value_1=scale_expected_value_1, scale_expected_value_2=scale_expected_value_2,
-                                scale_variance_1=scale_variance_1, scale_variance_2=scale_variance_2, folder=folder, )
+    plot_mean_score_with_error_bars(example_question_1=example_question_1, 
+                                    example_question_2=example_question_2,
+                                    scale_expected_value_1=scale_expected_value_1, 
+                                    scale_expected_value_2=scale_expected_value_2,
+                                    scale_variance_1=scale_variance_1, 
+                                    scale_variance_2=scale_variance_2, 
+                                    folder=folder, )
 
-    plot_distribution_of_differences(example_question_1=example_question_1, dif_samples=dif_samples, dif_conf_interval=dif_conf_interval, dif_conf_interval_gaussian_assumption=dif_conf_interval_gaussian_assumption, folder=folder)
+    plot_distribution_of_differences(example_question_1=example_question_1, 
+                                     dif_samples=dif_samples, 
+                                     dif_credible_interval=dif_credible_interval, 
+                                     dif_credible_interval_gaussian_assumption=dif_credible_interval_gaussian_assumption, 
+                                     folder=folder)
     close() #close plots
 
 
 def main():
 
     # paths to the data
-    uit_dataset_path = (r"..\BaseGeo_2_0\all data exel"  
+    uit_dataset_path = (r"..\BaseGeo_2_0\all data excel"  
                         + r"\uit.3.stud.data-98073-2024-02-15-1532.xlsx")
-    uio_dataset_path = (r"..\BaseGeo_2_0\all data exel"
+    uio_dataset_path = (r"..\BaseGeo_2_0\all data excel"
                         + r"\uio.4.stud.data-112060-2024-02-15-1625 (1).xlsx")
     
     # load using custom Survey class
@@ -334,17 +356,6 @@ def main():
     # for question in uit_survey.questions:
     #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)
     #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)
-
-
-    # if make_raw_histograms:
-    #     files = listdir(data_folder)
-    #     for file in files:
-    #         print(f"{file}")
-    #         data = pd.read_excel(data_folder + "\\" + file)
-    #         path = figure_folder + "\\" + file[:-5] + "\\" + "raw_histograms"
-    #         Path(path).mkdir(parents=True, exist_ok=True)
-    #         make_raw_histograms(data, path, quiet=1, use_only_known_axes=1)
-
 
 if __name__ == "__main__":
     main()
