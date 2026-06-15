@@ -12,7 +12,7 @@ from scipy.stats import dirichlet, beta
 
 class MonteCarloSampler:
 
-    def __init__(self, posterior_dist, num_categories=7, num_samples=1000000):
+    def __init__(self, posterior_dist, num_categories=7, num_samples=100000):
 
         self.posterior_dist = posterior_dist
         self.num_samples = num_samples
@@ -31,6 +31,7 @@ class MonteCarloSampler:
     def expected_value(self):
         """Calculate the expected value of the expected value from the 
         surveys based on the Monte Carlo samples."""
+
         return self.expected_values.mean()
     
     def variance(self):
@@ -49,7 +50,9 @@ class MonteCarloSampler:
 
     def probability_dist_of_differences(self, other):
         """Calculate the probability distribution of the difference in expected values between self and other."""
-        return self.expected_values - other.expected_values
+
+        self.dif_prop_dist = self.expected_values - other.expected_values 
+        return self.dif_prop_dist
 
 
     def credible_interval_of_differences_percentile(self, other, confidence=0.90):
@@ -82,3 +85,9 @@ class MonteCarloSampler:
         lower_bound = mean_diff - z_score * std_diff # gaussian is symmetric
         upper_bound = mean_diff + z_score * std_diff
         return lower_bound, upper_bound
+
+    def probability_higher_score_than_other(self, other):
+
+        # Count what fraction of samples are greater than 0
+        prob = np.mean(self.probability_dist_of_differences(other) > 0)
+        return prob

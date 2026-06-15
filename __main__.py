@@ -8,20 +8,19 @@
 from os import listdir
 import numpy as np
 from matplotlib.pyplot import subplots, show, close, title
-from pyparsing import alphas
+from scipy.stats import beta
+
 from monte_carlo import MonteCarloSampler
-from actors import *
-# from histogramming import sanitize_key
+from actors import Survey, Question
 from plot_config import *
-
-from bayesian_inference import *
-
+from bayesian_inference import BayesianInference
+from animations import animate_monte_carlo_sampling
 global data_folder, figure_folder
 data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
 
 # control flags
-make_raw_histograms = 0
+animate = 0
 
 
 def sanitize_key(key):
@@ -191,18 +190,24 @@ def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=
                 + folder + "\\" + f"expected_value_dist {sanitize_key(example_question_1.raw_text)}.png")
 
 def plot_distribution_of_differences(example_question_1=None, dif_samples=None, 
-                                     dif_credible_interval=None, dif_credible_interval_gaussian_assumption=None, folder=None):
+                                     dif_credible_interval=None, dif_credible_interval_gaussian_assumption=None, 
+                                     prop_uit_higher_score_than_uio=None, folder=None):
+    
     # plot the distribution of the differences of mean scores from the Monte Carlo simulations
     fig_dif_prop_dist, ax_dif_prop_dist = subplots(figsize=(10, 5))
+
     ax_dif_prop_dist.hist(dif_samples, bins=1000, density=True)
+    
     ax_dif_prop_dist.set_title(f"Distribution of differences in expected values between UiT and UiO\n"
-                    + f"question: {sanitize_key(example_question_1.raw_text)}\n",
+                    + f"question: {sanitize_key(example_question_1.raw_text)}\n"
+                    + f"Probability UiT has higher expected value than UiO: {prop_uit_higher_score_than_uio:.2f}",
                     fontsize=fig_title_fs)
+    
     # plot confidence intervals of difference of mean scores
-    ax_dif_prop_dist.axvline(dif_conf_interval[0], color='red', linestyle='--', label="90% conf. interval (Percentiles)")
-    ax_dif_prop_dist.axvline(dif_conf_interval[1], color='red', linestyle='--')
-    ax_dif_prop_dist.axvline(dif_conf_interval_gaussian_assumption[0], color='blue', linestyle='--', label="95% conf. interval (Gaussian assumption)")
-    ax_dif_prop_dist.axvline(dif_conf_interval_gaussian_assumption[1], color='blue', linestyle='--')
+    ax_dif_prop_dist.axvline(dif_credible_interval[0], color='red', linestyle='--', label="90% conf. interval (Percentiles)")
+    ax_dif_prop_dist.axvline(dif_credible_interval[1], color='red', linestyle='--')
+    ax_dif_prop_dist.axvline(dif_credible_interval_gaussian_assumption[0], color='blue', linestyle='--', label="90% conf. interval (Gaussian assumption)")
+    ax_dif_prop_dist.axvline(dif_credible_interval_gaussian_assumption[1], color='blue', linestyle='--')
     ax_dif_prop_dist.legend(fontsize=fig_legend_fs)
     ax_dif_prop_dist.set_xlabel("Difference in Expected Values", fontsize=fig_axis_fs)
     ax_dif_prop_dist.set_ylabel("Density", fontsize=fig_axis_fs)
@@ -239,7 +244,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
         # questions must be the same
         return 
 
-    if example_question_1.axis == (None, None) and example_question_2.axis == (None, None):
+    if example_question_1.axis is None and example_question_2.axis is None:
         # questions must have a well-defined axis (one of the 7-point scales)
         return     
     
@@ -276,6 +281,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
     dif_samples = MC_1.probability_dist_of_differences(MC_2)
     dif_credible_interval = MC_1.credible_interval_of_differences_percentile(MC_2)
     dif_credible_interval_gaussian_assumption = MC_1.credible_interval_of_differences_gaussian_assumption(MC_2)
+    prop_uit_higher_score_than_uio = MC_1.probability_higher_score_than_other(MC_2)
 
     scale_expected_value_1 = MC_1.expected_value()
     scale_expected_value_2 = MC_2.expected_value()
@@ -293,6 +299,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
         print(F"Variance for actor 1: {scale_variance_1}")
         print(F"Variance for actor 2: {scale_variance_2}")
 
+    print(f"{MC_1.expected_values = }")
 
     # ---------------------------------plotting---------------------------------
     plot_histogram(example_question_1=example_question_1, example_question_2=example_question_2, folder=folder)
@@ -329,9 +336,12 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
                                      dif_samples=dif_samples, 
                                      dif_credible_interval=dif_credible_interval, 
                                      dif_credible_interval_gaussian_assumption=dif_credible_interval_gaussian_assumption, 
+                                     prop_uit_higher_score_than_uio=prop_uit_higher_score_than_uio,
                                      folder=folder)
     close() #close plots
 
+
+    return MC_1, MC_2
 
 def main():
 
@@ -350,9 +360,10 @@ def main():
     # perform_analysis(uit_survey, uio_survey, question="Spatial skills (romlig forståelse)", print_results=1, gate_on_significance=0)
     # perform_analysis(uit_survey, uio_survey, question="Spatial skills (romlig forståelse).1", print_results=1, gate_on_significance=0)
     
-    perform_analysis(uit_survey, uio_survey, question="i feel comfortable as a student here", 
+    MC_uit, MC_uio = perform_analysis(uit_survey, uio_survey, question="i feel comfortable as a student here", 
                      print_results=0, gate_on_significance=False, folder="example_plots")
-
+    if animate:
+        animate_monte_carlo_sampling(MC_uit, MC_uio, num_frames=1000, folder="example_plots", example_question_1=uit_survey.search("i feel comfortable as a student here"))
     # for question in uit_survey.questions:
     #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)
     #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)

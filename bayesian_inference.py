@@ -6,8 +6,7 @@ category probabilities based on observed data.
 """
 
 import numpy as np
-from scipy.stats import dirichlet, beta
-import arviz
+from scipy.stats import dirichlet
 
 from actors import *
 

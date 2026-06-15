@@ -4,6 +4,12 @@ import pandas as pd
 from axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
 
 class Participant:
+    """not really used. Most of the information
+    if encapsulated in Survey and Question classes
+    
+    Could be used for conditional analysis, eg only count results if participant 
+    responded "x" to question "A".
+    """
     def __init__(self, id, survey, answers):
         self.id = id
         self.survey = survey
@@ -14,7 +20,9 @@ class Participant:
 
 
 class Question:
+    """Represents a question in survey and contain all relevant data"""
     def __init__(self, key, responses):
+        """is called from survey class."""
         self.raw_text = key
         self.responses = responses
         self.axis = detect_axis(responses)
@@ -22,13 +30,17 @@ class Question:
         # self.counts = None
         self.total_counts = len(responses)
 
+        # avoid these calculations if they are not needed
+        self.sample_mean = None
+        self.sample_variance = None
+        self.sample_std = None
 
-        if self.axis[0] not in {"unknown", "ambiguous"}:
-            self.sample_mean, self.sample_variance = self.sample_mean_and_variance()
-        else:
-            self.sample_mean, self.sample_variance = None, None
+        # if self.axis is not None and self.axis[0] not in {"unknown", "ambiguous"}:
+        #     self.sample_mean, self.sample_variance = self.sample_mean_and_variance()
+        # else:
+        #     self.sample_mean, self.sample_variance = None, None
 
-        self.sample_std = self.sample_variance ** 0.5 if self.sample_variance is not None else None
+        # self.sample_std = self.sample_variance ** 0.5 if self.sample_variance is not None else None
 
     def detect_axis(self):
         """detect axis using the function from axes.py and store the found axis in self.axis"""
@@ -39,7 +51,7 @@ class Question:
         using the axis labels as index. If the axis is not detected, 
         return the counts of unique normalized responses."""
         
-        if self.axis is (None, None):
+        if self.axis is None:
             return
         
         # # remove the responses that are in "UNIVERSAL_OPTIONS" from the counts, as they are not part of the actual axis
@@ -55,11 +67,16 @@ class Question:
         return counts
 
     def sample_mean_and_variance(self):
+        """get the sample mean and variance of the questions. 
+        Not really used"""
         counts = self.counts
         total_counts = self.total_counts
         values = [int(label[0]) for label in counts.index if label[0].isdigit()]
         mean = sum(value * count for value, count in zip(values, counts.values)) / total_counts
         variance = sum(count * (value - mean) ** 2 for value, count in zip(values, counts.values)) / total_counts
+        self.sample_mean = mean
+        self.sample_variance = variance
+        self.sample_std = self.sample_variance**0.5
         return mean, variance
 
 
@@ -73,6 +90,7 @@ class Survey:
         self.questions = self.get_questions()
     
     def get_participants(self):
+        """participants identified from their ID"""
         self.participants = []
         for id in self.ids:
             answers = self.data[self.data["$submission_id"] == id]
@@ -81,6 +99,7 @@ class Survey:
         return self.participants
     
     def get_questions(self):
+        """initialize all questions in the dataset"""
         self.questions = []
         for key in self.data.keys():
             question = Question(key, self.data[key].tolist())
@@ -94,5 +113,4 @@ class Survey:
         for question in self.get_questions():
             if query.lower() in question.raw_text.lower():
                 return question
-        # return matching_questions
 

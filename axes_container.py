@@ -1,5 +1,12 @@
+"""
+Containers for the various axes used in the survey questions.
 
+The first axis in each of the specific axes dictionaries are the "clean version", which is the 
+one used in the actual data analysis. The other versions are used for axis detection 
+
+"""
 AXES_frequencies = {
+
     "frequency": [
         "1. Never",
         "2.",

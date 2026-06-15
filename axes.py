@@ -39,45 +39,36 @@ def detect_axis(values):
     labels = {normalize_answer(v) for v in values}
     labels.discard(None)
 
-    # check which axes match the labels
-    # matches = []
-    for axis_name in AXES.keys():
-        for axis_variation, axis_labels in AXES[axis_name].items():
+    # check which axis match the labels, by running through all axis types and variants
+    for axis_type in AXES.keys(): # frequency, importance, extent ...
+        for axis_variation, axis_labels in AXES[axis_type].items(): # clean, with doubt, with typo ...
+
+            # assemble a set of allowed labels for this specific acis variation
             allowed = set(axis_labels) or set(UNIVERSAL_OPTIONS)
+
+            # check is the responses form a subset of the allowed labels for this axis variation
             if labels.issubset(allowed):
-                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
-            # try comparing with the first choice in the axis
+            
+            # if above fails try seeing if the first option from the clean axis is present in the responses (1. Strongly disagree, 1. Extremely little ...)
             if axis_labels[0] in labels:
-                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
-            # try comparing it with the last choice in the clean version of the axis
-            if AXES[axis_name][axis_name][-1] in labels:
-                axis = axis_name, AXES[axis_name][axis_name] # pick clean version
+            
+            # If above fails, try seeing if the last option from the clean axis is present in the responses (7. Strongly agree, 7. Extremely well ...)
+            if AXES[axis_type][axis_type][-1] in labels:
+                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
-
-    return None, None
-
-
-    # if exactly one axis matches, return it with its labels (including any universal options that are present)
-    if len(matches) >= 1:
-        name = matches[0]
-        plot_axis = AXES[name]# + [opt for opt in UNIVERSAL_OPTIONS if opt in labels]
-        return name, plot_axis
-
-    # if no axes match, return "unknown" with the unique labels (sorted for consistency)
-    if len(matches) == 0:
-        return "unknown", sorted(labels) #, sorted(labels)
-
-    # len(matches) > 1: this should not happen if axes are truly disjoint
-    # return "ambiguous", sorted(labels) #, sorted(labels)
-
+            
+    # not all questions have well defined axes
+    return None
 
 def extract_counts(values):
     """
     Given a list of raw values, normalize them and detect which axis they belong to.
     
-    Decrepreated in favor of objected oriented approach
+    Decrepreated in favor of the objected oriented approach
     """
     normalized = [normalize_answer(v) for v in values]
     axis_name, axis_labels, unmatched = detect_axis(values)
