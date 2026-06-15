@@ -51,7 +51,8 @@ class MonteCarloSampler:
         """Calculate the probability distribution of the difference in expected values between self and other."""
         return self.expected_values - other.expected_values
 
-    def confidence_interval_of_differences(self, other, confidence=0.95):
+
+    def confidence_interval_of_differences_percentile(self, other, confidence=0.95):
         """Calculate the confidence interval for the difference in expected values between self and other.
         This is done by calculating the distribution of differences and then finding the percentiles corresponding to the confidence level."""
 
