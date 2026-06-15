@@ -13,7 +13,7 @@ from actors import *
 
 class BayesianInference:
 
-    def __init__(self, question:Question, prior_alpha=np.ones(7)*0.5):
+    def __init__(self, question:Question, prior_alpha=np.ones(7)*1.0):
 
         self.question = question
         self.prior_alpha = prior_alpha
