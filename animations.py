@@ -8,11 +8,6 @@ Created: 2024-06-01
 Description: Animation module for visualizing the Monte Carlo sampling process and the evolution of posterior distributions.
 """
 
-
-
-"""
-animating aspects from the the data analysis 
-"""
 from plot_config import *
 # from main import sanitize_key
 
