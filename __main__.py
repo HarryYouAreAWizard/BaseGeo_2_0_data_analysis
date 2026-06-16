@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-# import pandas as pd
-# import re
-# from pathlib import Path
+"""
+File: __main__.py
+Author: Noah Nielsen
+Date: 2026-06-16
+Description: This script performs data analysis on the BaseGeo 2.0 survey data and generates plots.
+"""
 
-# from histogramming import make_raw_histograms
+
 
 from os import listdir
 import numpy as np
@@ -228,7 +233,11 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None,
                 + folder + "\\" + f"difference_in_expected_values distribution {sanitize_key(example_question_1.raw_text)}.png")
 
 
-def perform_analysis(survey1, survey2, question, print_results=True, gate_on_significance=False, folder="Bayesian_inference"):
+def perform_analysis(survey1, survey2, question, 
+                     print_results=True, 
+                     gate_on_significance=False, 
+                     folder="Bayesian_inference",
+                     use_libraries=False):
     
     # ---------------------------------extract question---------------------------------
     # pick out the specific question to analyze
@@ -259,12 +268,22 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
 
     
     # ---------------------------------statistics---------------------------------
-    # initialize the BayesianInference class   
-    BI1 = BayesianInference(example_question_1)
-    BI2 = BayesianInference(example_question_2)
-    # do the inference 
-    BI1.bayesian_inference()
-    BI2.bayesian_inference()
+    if use_libraries:
+        observed_counts_1 = example_question_1.counts.values
+        observed_counts_2 = example_question_2.counts.values
+        BI1 = bayesian_inference_with_libraries(observed_counts_1)
+        BI2 = bayesian_inference_with_libraries(observed_counts_2)
+        BI1.perform_inference()
+        BI2.perform_inference()
+
+        pass
+    else:
+        # initialize the BayesianInference class   
+        BI1 = BayesianInference(example_question_1)
+        BI2 = BayesianInference(example_question_2)
+        # do the inference 
+        BI1.bayesian_inference()
+        BI2.bayesian_inference()
 
     # do monte carlo sampling to estimate average score on scale and uncertainty
     MC_1 = MonteCarloSampler(BI1.posterior_dist, num_samples=int(1e6))
@@ -365,7 +384,7 @@ def main():
     # perform_analysis(uit_survey, uio_survey, question="Spatial skills (romlig forståelse).1", print_results=1, gate_on_significance=0)
     
     MC_uit, MC_uio = perform_analysis(uit_survey, uio_survey, question="i feel comfortable as a student here", 
-                     print_results=0, gate_on_significance=False, folder="example_plots")
+                     print_results=0, gate_on_significance=False, folder="example_plots", use_libraries=True)
     if animate:
         animate_monte_carlo_sampling(MC_uit, MC_uio, num_frames=1000, folder="example_plots", example_question_1=uit_survey.search("i feel comfortable as a student here"))
     # for question in uit_survey.questions:

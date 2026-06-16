@@ -1,4 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+"""
+File: animations.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: Animation module for visualizing the Monte Carlo sampling process and the evolution of posterior distributions.
+"""
 
 
 

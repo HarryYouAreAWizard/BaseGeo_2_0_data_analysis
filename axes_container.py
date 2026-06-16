@@ -1,10 +1,13 @@
-"""
-Containers for the various axes used in the survey questions.
-
-The first axis in each of the specific axes dictionaries are the "clean version", which is the 
-one used in the actual data analysis. The other versions are used for axis detection 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
+File: axes_container.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: Containers for the various axes used in the survey questions.
+"""
+
 AXES_frequencies = {
 
     "frequency": [

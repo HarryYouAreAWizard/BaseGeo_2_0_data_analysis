@@ -1,9 +1,14 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
-Bayesian inference module for updating beliefs about response 
-category probabilities based on observed data.
+File: bayesian_inference.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: Bayesian inference module for updating beliefs about response category 
+probabilities based on observed data.
 """
+
 
 import numpy as np
 from scipy.stats import dirichlet

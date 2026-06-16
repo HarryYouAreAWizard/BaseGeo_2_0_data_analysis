@@ -1,4 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+"""
+File: monte_carlo.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: This module implements Monte Carlo sampling for converting posterior 
+distributions from Bayesian Inference into point estimates and uncertainty quantification. 
+It provides methods to calculate expected values, variances, credible intervals, and 
+probabilities of differences between groups based on the samples drawn from the posterior distribution.
+"""
 
 
 """

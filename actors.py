@@ -1,3 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+File: actors.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: This module defines the core classes for representing survey data, 
+including Participant, Question, and Survey. These classes encapsulate the 
+structure and behavior of survey data, allowing for organized access to participant 
+responses, question details, and overall survey management. The Participant class 
+represents individual respondents, the Question class handles the specifics of each 
+survey question, and the Survey class manages the collection of questions and participants.
+"""
 
 import pandas as pd
 import numpy as np

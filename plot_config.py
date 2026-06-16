@@ -1,4 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+"""
+File: plot_config.py
+Author: Noah Nielsen
+Created: 2024-06-01
+Description: Configuration module for plot styling.
+"""
 
 
 fig_title_fs = 20
