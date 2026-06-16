@@ -4,7 +4,7 @@
 """
 File: plot_config.py
 Author: Noah Nielsen
-Created: 2024-06-01
+Created: 2026-06-16
 Description: Configuration module for plot styling.
 """
 
@@ -228,5 +228,7 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None,
     fig_dif_prop_dist.tight_layout()
     fig_dif_prop_dist.savefig("..\\" + figure_folder + "\\"
                 + folder + "\\" + f"difference_in_expected_values distribution {sanitize_key(example_question_1.raw_text)}.png")
+
+
 
 

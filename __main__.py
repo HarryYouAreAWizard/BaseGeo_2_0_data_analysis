@@ -4,7 +4,7 @@
 """
 File: __main__.py
 Author: Noah Nielsen
-Date: 2026-06-16
+Date: 2026-04-18
 Description: This script performs data analysis on the BaseGeo 2.0 survey data and generates plots.
 """
 
@@ -26,7 +26,7 @@ data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
 
 # control flags
-animate = 1
+animate = 0
 
 
 def perform_analysis(survey1, survey2, question, 
@@ -64,27 +64,23 @@ def perform_analysis(survey1, survey2, question,
 
     
     # ---------------------------------statistics---------------------------------
-    # initialize the BayesianInference class   
+    # do Bayesian Inference    
     BI1 = BayesianInference(example_question_1)
     BI2 = BayesianInference(example_question_2)
-    # do the inference 
-    BI1.bayesian_inference()
-    BI2.bayesian_inference()
-
-    # do monte carlo sampling to estimate average score on scale and uncertainty
-    MC_1 = MonteCarloSampler(BI1.posterior_dist, num_samples=int(1e6))
-    MC_2 = MonteCarloSampler(BI2.posterior_dist, num_samples=int(1e6))
 
     # extract results
-    uit_p_mean = BI1.expected_value()
-    uio_p_mean = BI2.expected_value()
-    uit_p_variance = BI1.variance()
-    uio_p_variance = BI2.variance()
-    # also find the prior distribution
+    uit_p_postrior_mean = BI1.expected_value()
+    uio_p_postrior_mean = BI2.expected_value()
+    uit_p_postrior_variance = BI1.variance()
+    uio_p_postrior_variance = BI2.variance()
     uit_p_prior_mean = BI1.prior_dist.mean()
     uio_p_prior_mean = BI2.prior_dist.mean()
     uit_p_prior_variance = BI1.prior_dist.var()
     uio_p_prior_variance = BI2.prior_dist.var()
+
+    # do monte carlo sampling to estimate average score and uncertainty
+    MC_1 = MonteCarloSampler(BI1.posterior_dist, num_samples=int(1e6))
+    MC_2 = MonteCarloSampler(BI2.posterior_dist, num_samples=int(1e6))
 
     # UiT - UiO
     dif_samples = MC_1.probability_dist_of_differences(MC_2)
@@ -92,10 +88,10 @@ def perform_analysis(survey1, survey2, question,
     dif_credible_interval_gaussian_assumption = MC_1.credible_interval_of_differences_gaussian_assumption(MC_2)
     prop_uit_higher_score_than_uio = MC_1.probability_higher_score_than_other(MC_2)
 
-    scale_expected_value_1 = MC_1.expected_value()
-    scale_expected_value_2 = MC_2.expected_value()
-    scale_variance_1 = MC_1.variance()
-    scale_variance_2 = MC_2.variance()
+    scale_expected_value_1 = MC_1.score_expected_value()
+    scale_expected_value_2 = MC_2.score_expected_value()
+    scale_variance_1 = MC_1.score_variance()
+    scale_variance_2 = MC_2.score_variance()
 
 
     significant = dif_credible_interval[0] > 0  or dif_credible_interval[1] < 0
@@ -127,11 +123,11 @@ def perform_analysis(survey1, survey2, question,
                with_marginalized_distributions=True)
 
     plot_posterior(example_question_1=example_question_1, 
-                   uit_p_mean=uit_p_mean, 
-                   uit_p_variance=uit_p_variance, BI1=BI1,
+                   uit_p_mean=uit_p_postrior_mean, 
+                   uit_p_variance=uit_p_postrior_variance, BI1=BI1,
                    example_question_2=example_question_2, 
-                   uio_p_mean=uio_p_mean, 
-                   uio_p_variance=uio_p_variance, BI2=BI2,
+                   uio_p_mean=uio_p_postrior_mean, 
+                   uio_p_variance=uio_p_postrior_variance, BI2=BI2,
                    folder=folder, 
                    with_marginalized_distributions=True)
     

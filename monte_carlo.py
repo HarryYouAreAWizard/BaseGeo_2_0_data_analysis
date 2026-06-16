@@ -9,13 +9,11 @@ Description: This module implements Monte Carlo sampling for converting posterio
 distributions from Bayesian Inference into point estimates and uncertainty quantification. 
 It provides methods to calculate expected values, variances, credible intervals, and 
 probabilities of differences between groups based on the samples drawn from the posterior distribution.
+
+should be substituted with a library doing Markov Chain Monte Carlo sampling
 """
 
 
-"""
-Monte Carlo sampling for converting posterior distributions from Bayesian Inference
-into point estimates and uncertainty quantification.
-"""
 
 import numpy as np
 import scipy
@@ -39,24 +37,16 @@ class MonteCarloSampler:
         self.samples = self.posterior_dist.rvs(size=self.num_samples)
         return self.samples
     
-    def expected_value(self):
+    def score_expected_value(self):
         """Calculate the expected value of the expected value from the 
         surveys based on the Monte Carlo samples."""
 
         return self.expected_values.mean()
     
-    def variance(self):
+    def score_variance(self):
         """calculate the variance of the survey scale mean based on 
         the Monte Carlo samples."""
         return self.expected_values.var()
-    
-    # def credible_interval(self, confidence=0.95):
-    #     """Calculate the credible interval for the survey scale expected value 
-    #     based on the Monte Carlo samples."""
-
-    #     lower_bound = np.percentile(self.expected_values, (0.5 - confidence*0.5) * 100)
-    #     upper_bound = np.percentile(self.expected_values, (0.5 + confidence*0.5) * 100)
-    #     return lower_bound, upper_bound
     
 
     def probability_dist_of_differences(self, other):

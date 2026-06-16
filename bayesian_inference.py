@@ -4,7 +4,7 @@
 """
 File: bayesian_inference.py
 Author: Noah Nielsen
-Created: 2024-06-01
+Created: 2026-06-14
 Description: Bayesian inference module for updating beliefs about response category 
 probabilities based on observed data.
 """
@@ -15,6 +15,8 @@ from scipy.stats import dirichlet
 
 from actors import *
 
+
+
 class BayesianInference:
 
     def __init__(self, question:Question, prior_alpha=np.ones(7)*1.0):
@@ -22,8 +24,8 @@ class BayesianInference:
         self.question = question
         self.prior_alpha = prior_alpha
         self.prior_dist = dirichlet(self.prior_alpha)
-        self.posterior_dist = None
-        self.posterior_alpha = None
+        self.posterior_alpha = None # is set with bayesian_inference() method
+        self.posterior_dist = self.bayesian_inference()
         
     
     def bayesian_inference(self):

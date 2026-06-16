@@ -4,7 +4,7 @@
 """
 File: animations.py
 Author: Noah Nielsen
-Created: 2024-06-01
+Created: 2026-06-15
 Description: Animation module for visualizing the Monte Carlo sampling process and the evolution of posterior distributions.
 """
 
