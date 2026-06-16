@@ -16,7 +16,8 @@ def animate_monte_carlo_sampling(monte_carlo_sampler_1, monte_carlo_sampler_2, n
     import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation
 
-    fig, ax = plt.subplots(3, 1, figsize=(10, 5))
+    # num_frames = 10 # override for testing
+    fig, ax = plt.subplots(3, 1, figsize=(10, 12))
 
     def update(frame):
         for a in ax:

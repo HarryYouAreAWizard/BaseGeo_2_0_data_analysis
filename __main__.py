@@ -226,12 +226,10 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None,
     fig_dif_prop_dist.tight_layout()
     fig_dif_prop_dist.savefig("..\\" + figure_folder + "\\"
                 + folder + "\\" + f"difference_in_expected_values distribution {sanitize_key(example_question_1.raw_text)}.png")
-    
-
-
 
 
 def perform_analysis(survey1, survey2, question, print_results=True, gate_on_significance=False, folder="Bayesian_inference"):
+    
     # ---------------------------------extract question---------------------------------
     # pick out the specific question to analyze
     if isinstance(question, int):
@@ -319,7 +317,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
                uio_p_prior_variance=uio_p_prior_variance, 
                BI2=BI2,
                folder=folder, 
-               with_marginalized_distributions=False)
+               with_marginalized_distributions=True)
 
     plot_posterior(example_question_1=example_question_1, 
                    uit_p_mean=uit_p_mean, 
@@ -328,7 +326,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
                    uio_p_mean=uio_p_mean, 
                    uio_p_variance=uio_p_variance, BI2=BI2,
                    folder=folder, 
-                   with_marginalized_distributions=False)
+                   with_marginalized_distributions=True)
     
     plot_mean_score_with_error_bars(example_question_1=example_question_1, 
                                     example_question_2=example_question_2,
