@@ -39,7 +39,7 @@ def animate_monte_carlo_sampling(monte_carlo_sampler_1, monte_carlo_sampler_2, n
         ax[0].vlines(mean_score_1, 0, ax[0].get_ylim()[1], colors='red', linestyles='dashed', label=f"Mean: {mean_score_1:.2f}")
         ax[1].vlines(mean_score_2, 0, ax[1].get_ylim()[1], colors='red', linestyles='dashed', label=f"Mean: {mean_score_2:.2f}")
 
-        ax[2].set_title(f"Difference in mean score\n{frame}", fontsize=fig_title_fs)
+        ax[2].set_title(f"Difference in mean score\nnum sims: {frame}", fontsize=fig_title_fs)
     
         ax[0].set_title(f"UiT", fontsize=fig_title_fs)
         ax[0].set_ylabel("Density", fontsize=fig_axis_fs)

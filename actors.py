@@ -1,6 +1,6 @@
 
 import pandas as pd
-
+import numpy as np
 from axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
 
 class Participant:
@@ -26,6 +26,7 @@ class Question:
         self.raw_text = key
         self.responses = responses
         self.axis = detect_axis(responses)
+        self.number_axis = range(1, 8)  # default to 7 point scale, can be adjusted if needed
         self.counts = self.get_counts()
         # self.counts = None
         self.total_counts = len(responses)
@@ -44,24 +45,36 @@ class Question:
 
     def detect_axis(self):
         """detect axis using the function from axes.py and store the found axis in self.axis"""
-        self.axis = detect_axis(self.responses)
+        return detect_axis(self.responses)
 
     def get_counts(self):
         """get the counts of each response category as a pandas Series, 
         using the axis labels as index. If the axis is not detected, 
-        return the counts of unique normalized responses."""
+        return the counts of unique normalized responses.
+        
+        We must ensure that we count everyting, that is, if there is a typo 
+        in the original axis label for "1." then we still count the number of
+        "1."s in the answers 
+        """
         
         if self.axis is None:
             return
         
-        # # remove the responses that are in "UNIVERSAL_OPTIONS" from the counts, as they are not part of the actual axis
-        # self.responses = [response for response in self.responses if response not in UNIVERSAL_OPTIONS]
 
-        x = [normalize_answer(v) for v in self.responses]   # clean/normalize the responses
-        x  = pd.Series(x)                                   #  convert to pd.Series
-        x = x.value_counts()                                # count occurrences of each unique value
+        # avoid running if there are nan in the answers
+        for response in self.responses:
+            normalized = normalize_answer(response)
+            if normalized is None:
+                return 
+
+        # count over the "dirty axis" inherent in the responses
+        x = [normalize_answer(v)[:1] for v in self.responses]   # pick out the first character of the normalized response, which should be the number if it starts with a digit
+        # pick out numbers
+        x = [int(v) for v in x if v and v[0].isdigit()]
+        x  = pd.Series(x)
+        counts = x.value_counts() # count occurrences of each unique value
         # reindex to ensure all axis labels are present, filling missing ones with 0
-        counts = x.reindex(self.axis[1],                    # the actual axis labels 
+        counts = counts.reindex(self.number_axis, # the actual axis labels 
                            fill_value=0)                    
         self.counts = counts
         return counts

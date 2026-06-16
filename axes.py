@@ -30,6 +30,9 @@ def normalize_answer(value):
 def detect_axis(values):
     """
     Detect which axis a set of values belongs to, based on the predefined AXES.
+
+    returns botht the clean and the raw detected axis
+
     Returns the axis name, the labels for that axis, and any unmatched labels.
      - If exactly one axis matches, returns that axis and its labels.
      - If no axes match, returns "unknown" and the unique normalized labels.
@@ -47,7 +50,8 @@ def detect_axis(values):
             allowed = set(axis_labels) or set(UNIVERSAL_OPTIONS)
 
             # check is the responses form a subset of the allowed labels for this axis variation
-            if labels.issubset(allowed):
+            if 0 and labels.issubset(allowed): 
+                # this function is suspected to be incorrect
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
             

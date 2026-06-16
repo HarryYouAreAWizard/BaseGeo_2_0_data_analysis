@@ -20,7 +20,7 @@ data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
 
 # control flags
-animate = 0
+animate = 1
 
 
 def sanitize_key(key):
@@ -41,6 +41,7 @@ def plot_histogram(example_question_1=None, example_question_2=None, folder=None
                                         fontsize=fig_title_fs)
     axs_raw_histogram[0].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_raw_histogram[0].set_ylabel("Density", fontsize=fig_axis_fs)
+    axs_raw_histogram[0].set_xticks(example_question_1.counts.index, labels=example_question_1.axis[1])
     axs_raw_histogram[0].tick_params(axis='both', which='major', 
                                         labelsize=fig_tick_fs, rotation=45)
     axs_raw_histogram[1].set_title(f"Histogram UiO\nquestion: "
@@ -48,6 +49,7 @@ def plot_histogram(example_question_1=None, example_question_2=None, folder=None
                                         fontsize=fig_title_fs)
     axs_raw_histogram[1].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_raw_histogram[1].set_ylabel("Density", fontsize=fig_axis_fs)
+    axs_raw_histogram[1].set_xticks(example_question_2.counts.index, labels=example_question_2.axis[1])
     axs_raw_histogram[1].tick_params(axis='both', which='major', 
                                         labelsize=fig_tick_fs, rotation=45)
 
@@ -99,6 +101,7 @@ def plot_prior(example_question_1=None, uit_p_prior_mean=None, uit_p_prior_varia
     axs_prior_dist[0,0].set_title(f"Prior distribution for UiT\nquestion: "
                                         + f"{example_question_1.raw_text}", 
                                         fontsize=fig_title_fs)
+    axs_prior_dist[0,0].set_xticks(example_question_1.counts.index, labels=example_question_1.axis[1])
     axs_prior_dist[0,0].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_prior_dist[0,0].set_ylabel("Density", fontsize=fig_axis_fs)
     axs_prior_dist[0,0].tick_params(axis='both', which='major', 
@@ -109,6 +112,7 @@ def plot_prior(example_question_1=None, uit_p_prior_mean=None, uit_p_prior_varia
     axs_prior_dist[1,0].set_title(f"Prior distribution for UiO\nquestion: "
                                         + f"{example_question_2.raw_text}", 
                                         fontsize=fig_title_fs)
+    axs_prior_dist[1,0].set_xticks(example_question_2.counts.index, labels=example_question_2.axis[1])
     axs_prior_dist[1,0].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_prior_dist[1,0].set_ylabel("Density", fontsize=fig_axis_fs)
     axs_prior_dist[1,0].tick_params(axis='both', which='major', 
@@ -142,6 +146,7 @@ def plot_posterior(example_question_1=None, uit_p_mean=None, uit_p_variance=None
     axs_posterior_dist[0,0].set_title(f"Posterior distribution for UiT\nquestion: "
                                         + f"{example_question_1.raw_text}", 
                                         fontsize=fig_title_fs)
+    axs_posterior_dist[0,0].set_xticks(example_question_1.counts.index, labels=example_question_1.axis[1])
     axs_posterior_dist[0,0].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_posterior_dist[0,0].set_ylabel("Density", fontsize=fig_axis_fs)
     axs_posterior_dist[0,0].tick_params(axis='both', which='major', 
@@ -152,6 +157,7 @@ def plot_posterior(example_question_1=None, uit_p_mean=None, uit_p_variance=None
     axs_posterior_dist[1,0].set_title(f"Posterior distribution for UiO\nquestion: "
                                         + f"{example_question_2.raw_text}", 
                                         fontsize=fig_title_fs)
+    axs_posterior_dist[1,0].set_xticks(example_question_2.counts.index, labels=example_question_2.axis[1])
     axs_posterior_dist[1,0].set_xlabel("Response", fontsize=fig_axis_fs)
     axs_posterior_dist[1,0].set_ylabel("Density", fontsize=fig_axis_fs)
     axs_posterior_dist[1,0].tick_params(axis='both', which='major', 
@@ -263,8 +269,8 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
     BI2.bayesian_inference()
 
     # do monte carlo sampling to estimate average score on scale and uncertainty
-    MC_1 = MonteCarloSampler(BI1.posterior_dist)
-    MC_2 = MonteCarloSampler(BI2.posterior_dist)
+    MC_1 = MonteCarloSampler(BI1.posterior_dist, num_samples=int(1e6))
+    MC_2 = MonteCarloSampler(BI2.posterior_dist, num_samples=int(1e6))
 
     # extract results
     uit_p_mean = BI1.expected_value()
@@ -313,7 +319,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
                uio_p_prior_variance=uio_p_prior_variance, 
                BI2=BI2,
                folder=folder, 
-               with_marginalized_distributions=True)
+               with_marginalized_distributions=False)
 
     plot_posterior(example_question_1=example_question_1, 
                    uit_p_mean=uit_p_mean, 
@@ -322,7 +328,7 @@ def perform_analysis(survey1, survey2, question, print_results=True, gate_on_sig
                    uio_p_mean=uio_p_mean, 
                    uio_p_variance=uio_p_variance, BI2=BI2,
                    folder=folder, 
-                   with_marginalized_distributions=True)
+                   with_marginalized_distributions=False)
     
     plot_mean_score_with_error_bars(example_question_1=example_question_1, 
                                     example_question_2=example_question_2,
