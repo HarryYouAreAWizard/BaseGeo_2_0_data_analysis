@@ -73,16 +73,10 @@ class Question:
         
         if self.axis is None:
             return
-        
-
-        # avoid running if there are nan in the answers
-        for response in self.responses:
-            normalized = normalize_answer(response)
-            if normalized is None:
-                return 
 
         # count over the "dirty axis" inherent in the responses
-        x = [normalize_answer(v)[:1] for v in self.responses]   # pick out the first character of the normalized response, which should be the number if it starts with a digit
+        # x = [normalize_answer(v)[:1] for v in self.responses]   # pick out the first character of the normalized response, which should be the number if it starts with a digit
+        x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
         # pick out numbers
         x = [int(v) for v in x if v and v[0].isdigit()]
         x  = pd.Series(x)

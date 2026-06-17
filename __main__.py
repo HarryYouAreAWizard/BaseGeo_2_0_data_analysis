@@ -11,11 +11,13 @@ Description: This script performs data analysis on the BaseGeo 2.0 survey data a
 
 
 from os import listdir
+from matplotlib.style import use
 import numpy as np
 from matplotlib.pyplot import subplots, show, close, title
 from scipy.stats import beta
 
 from monte_carlo import MonteCarloSampler
+# from MCMC import MonteCarloSampler # mostly for testing
 from actors import Survey, Question
 from plots import *
 from bayesian_inference import BayesianInference
@@ -33,7 +35,8 @@ def perform_analysis(survey1, survey2, question,
                      print_results=True, 
                      gate_on_significance=False, 
                      folder="Bayesian_inference",
-                     use_libraries=False):
+                     use_libraries=False,
+                     with_marginalized_distributions=False):
     
     # ---------------------------------extract question---------------------------------
     # pick out the specific question to analyze
@@ -61,8 +64,9 @@ def perform_analysis(survey1, survey2, question,
         # questions must be on the same axis (scale)
         return 
 
-
-    
+    if example_question_1.counts is None or example_question_2.counts is None:
+        # print(f"Question '{question}' has missing counts in one of the surveys.")
+        return
     # ---------------------------------statistics---------------------------------
     # do Bayesian Inference    
     BI1 = BayesianInference(example_question_1)
@@ -96,7 +100,10 @@ def perform_analysis(survey1, survey2, question,
 
     significant = dif_credible_interval[0] > 0  or dif_credible_interval[1] < 0
     if gate_on_significance and not significant:
-        return
+        return 
+        # folder = "Bayesian_inference\\all"
+    # else:
+        # folder = f"Bayesian_inference\\significant"
 
     if print_results:
         print(F"Expected value for actor 1: {scale_expected_value_1}")
@@ -104,7 +111,7 @@ def perform_analysis(survey1, survey2, question,
         print(F"Variance for actor 1: {scale_variance_1}")
         print(F"Variance for actor 2: {scale_variance_2}")
 
-    print(f"{MC_1.expected_values = }")
+    # print(f"{MC_1.expected_values = }")
 
     # ---------------------------------plotting---------------------------------
     plot_raw_histogram(example_question_1=example_question_1, 
@@ -120,7 +127,7 @@ def perform_analysis(survey1, survey2, question,
                uio_p_prior_variance=uio_p_prior_variance, 
                BI2=BI2,
                folder=folder, 
-               with_marginalized_distributions=True)
+               with_marginalized_distributions=with_marginalized_distributions)
 
     plot_posterior(example_question_1=example_question_1, 
                    uit_p_mean=uit_p_postrior_mean, 
@@ -129,7 +136,7 @@ def perform_analysis(survey1, survey2, question,
                    uio_p_mean=uio_p_postrior_mean, 
                    uio_p_variance=uio_p_postrior_variance, BI2=BI2,
                    folder=folder, 
-                   with_marginalized_distributions=True)
+                   with_marginalized_distributions=with_marginalized_distributions)
     
     plot_mean_score_with_error_bars(example_question_1=example_question_1, 
                                     example_question_2=example_question_2,
@@ -145,35 +152,23 @@ def perform_analysis(survey1, survey2, question,
                                      dif_credible_interval_gaussian_assumption=dif_credible_interval_gaussian_assumption, 
                                      prop_uit_higher_score_than_uio=prop_uit_higher_score_than_uio,
                                      folder=folder)
-    close() #close plots
 
 
     return MC_1, MC_2
 
 def main():
 
-    # paths to the data
-    uit_dataset_path = (r"..\BaseGeo_2_0\all data excel"  
-                        + r"\uit.3.stud.data-98073-2024-02-15-1532.xlsx")
-    uio_dataset_path = (r"..\BaseGeo_2_0\all data excel"
-                        + r"\uio.4.stud.data-112060-2024-02-15-1625 (1).xlsx")
-    
-    # load using custom Survey class
-    uit_survey = Survey(uit_dataset_path)
-    uio_survey = Survey(uio_dataset_path)
+    # make mapping to questions
+    # survey_edducators_2026_path = r"2026data\data_2026_educators.xlsx"
 
-    # perform_analysis(uit_survey, uio_survey, question="Laboratory skills", print_results=1, gate_on_significance=0)
-    # perform_analysis(uit_survey, uio_survey, question="Laboratory skills.1", print_results=1, gate_on_significance=0)
-    # perform_analysis(uit_survey, uio_survey, question="Spatial skills (romlig forståelse)", print_results=1, gate_on_significance=0)
-    # perform_analysis(uit_survey, uio_survey, question="Spatial skills (romlig forståelse).1", print_results=1, gate_on_significance=0)
-    
-    MC_uit, MC_uio = perform_analysis(uit_survey, uio_survey, question="i feel comfortable as a student here", 
-                     print_results=0, gate_on_significance=False, folder="example_plots", use_libraries=True)
-    if animate:
-        animate_monte_carlo_sampling(MC_uit, MC_uio, num_frames=1000, folder="example_plots", example_question_1=uit_survey.search("i feel comfortable as a student here"))
-    # for question in uit_survey.questions:
-    #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)
-    #     perform_analysis(uit_survey, uio_survey, question=question.raw_text, print_results=0, gate_on_significance=1)
+    # uit_survey_path = r"all data excel\uit.4.data-96129-2024-02-15-1546.xlsx"''
+    survey_path_2019 = r"2019data\uit_2019_students.xlsx"
+    survey_path_2026 = r"2026data\uit_2026_students.xlsx"
 
+    survey_2019 = Survey(survey_path_2019)
+    survey_2026 = Survey(survey_path_2026)
+
+    for i in range(len(survey_2026.questions)):
+        print(f"{i}    2019: {survey_2019.questions[i].raw_text:<100}     | {i}    2026: {survey_2026.questions[i].raw_text}")
 if __name__ == "__main__":
     main()

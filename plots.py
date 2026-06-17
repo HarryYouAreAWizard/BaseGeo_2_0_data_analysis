@@ -9,7 +9,7 @@ Description: Configuration module for plot styling.
 """
 
 import numpy as np
-from matplotlib.pyplot import subplots
+from matplotlib.pyplot import subplots, close
 from scipy.stats import beta
 
 #  global data_folder, figure_folder
@@ -35,16 +35,17 @@ def sanitize_key(key):
         key = key.replace(bad_char, "")
     return key
 
-def plot_raw_histogram(example_question_1=None, example_question_2=None, folder=None):
+def plot_raw_histogram_two_plots(example_question_1=None, example_question_2=None, folder=None):
+    """to be deleted"""
     # plot a histogram of the raw data
     fig_raw_histogram, axs_raw_histogram = subplots(2, 1, figsize=(10, 15))
-    axs_raw_histogram[0].bar(example_question_1.counts.index, example_question_1.counts.values)
-    axs_raw_histogram[1].bar(example_question_2.counts.index, example_question_2.counts.values)
+    axs_raw_histogram[0].bar([example_question_1.counts.index, example_question_2.counts.index], [example_question_1.counts.values, example_question_2.counts.values])
+    # axs_raw_histogram[1].bar(, example_question_2.counts.values)
     axs_raw_histogram[0].set_title(f"Histogram UiT\nquestion: "
                                         + f"{example_question_1.raw_text}", 
                                         fontsize=fig_title_fs)
     axs_raw_histogram[0].set_xlabel("Response", fontsize=fig_axis_fs)
-    axs_raw_histogram[0].set_ylabel("Density", fontsize=fig_axis_fs)
+    axs_raw_histogram[0].set_ylabel("Counts", fontsize=fig_axis_fs)
     axs_raw_histogram[0].set_xticks(example_question_1.counts.index, labels=example_question_1.axis[1])
     axs_raw_histogram[0].tick_params(axis='both', which='major', 
                                         labelsize=fig_tick_fs, rotation=45)
@@ -52,7 +53,7 @@ def plot_raw_histogram(example_question_1=None, example_question_2=None, folder=
                                         + f"{example_question_2.raw_text}", 
                                         fontsize=fig_title_fs)
     axs_raw_histogram[1].set_xlabel("Response", fontsize=fig_axis_fs)
-    axs_raw_histogram[1].set_ylabel("Density", fontsize=fig_axis_fs)
+    axs_raw_histogram[1].set_ylabel("Counts", fontsize=fig_axis_fs)
     axs_raw_histogram[1].set_xticks(example_question_2.counts.index, labels=example_question_2.axis[1])
     axs_raw_histogram[1].tick_params(axis='both', which='major', 
                                         labelsize=fig_tick_fs, rotation=45)
@@ -60,6 +61,46 @@ def plot_raw_histogram(example_question_1=None, example_question_2=None, folder=
     fig_raw_histogram.tight_layout()
     fig_raw_histogram.savefig("..\\"+ figure_folder+"\\"
                                + folder + f"\\raw {sanitize_key(example_question_1.raw_text)}.png")
+    
+    close() #close plots
+
+def plot_raw_histogram(example_question_1=None, example_question_2=None, folder=None):
+    """AI generated"""
+    # --------------------------------- Plotting Side-by-Side Bars ---------------------------------
+    fig_raw_histogram, ax_raw_histogram = subplots(figsize=(10, 10))
+    # Extract indices and values
+    indices = np.array(example_question_1.counts.index)
+    counts_1 = example_question_1.counts.values
+    counts_2 = example_question_2.counts.values
+    
+    # Define bar width (0.35 works perfectly for a dual-bar layout)
+    bar_width = 0.35
+    
+    # Plot Group 1 shifted to the left, and Group 2 shifted to the right
+    ax_raw_histogram.bar(indices - bar_width/2, counts_1, width=bar_width, 
+                         label="UiT (Group 1)", color="#1f77b4", alpha=0.85)
+    ax_raw_histogram.bar(indices + bar_width/2, counts_2, width=bar_width, 
+                         label="UiO/UNIS (Group 2)", color="#ff7f0e", alpha=0.85)
+
+    # --------------------------------- Your Existing Formatting ---------------------------------
+    ax_raw_histogram.set_title(f"Histogram\nquestion: {example_question_1.raw_text}", 
+                                fontsize=fig_title_fs)
+    ax_raw_histogram.set_xlabel("Response", fontsize=fig_axis_fs)
+    ax_raw_histogram.set_ylabel("Counts", fontsize=fig_axis_fs)
+    
+    # Center the ticks exactly between the grouped bars
+    ax_raw_histogram.set_xticks(indices, labels=example_question_1.axis[1])
+    
+    ax_raw_histogram.tick_params(axis='both', which='major', 
+                                 labelsize=fig_tick_fs, rotation=45)
+    ax_raw_histogram.legend(fontsize=fig_legend_fs)   
+
+    fig_raw_histogram.tight_layout()
+    fig_raw_histogram.savefig("..\\" + figure_folder + "\\"
+                               + folder + f"\\raw {sanitize_key(example_question_1.raw_text)}.png")
+    
+    close() # close plots
+
 
 def plot_marginalized_distributions(fig, axs, alphas_uit, alphas_uio):
     alpha_0_uit = np.sum(alphas_uit)
@@ -85,6 +126,7 @@ def plot_marginalized_distributions(fig, axs, alphas_uit, alphas_uio):
         axs[1,i+1].set_xlabel(f"p(response {i+1})", fontsize=ax_axis_fs)
         axs[1,i+1].set_ylabel("Density", fontsize=ax_axis_fs)
         axs[1,i+1].tick_params(axis='both', which='major', labelsize=ax_tick_fs)
+    close() 
 
 def plot_prior(example_question_1=None, uit_p_prior_mean=None, uit_p_prior_variance=None, BI1=None,
                example_question_2=None, uio_p_prior_mean=None, uio_p_prior_variance=None, BI2=None,
@@ -131,6 +173,7 @@ def plot_prior(example_question_1=None, uit_p_prior_mean=None, uit_p_prior_varia
     fig_prior_dist.tight_layout()
     fig_prior_dist.savefig("..\\" + figure_folder + "\\" 
                 + folder + "\\" + f"prior {sanitize_key(example_question_1.raw_text)}.png")
+    close() #close plots
 
 def plot_posterior(example_question_1=None, uit_p_mean=None, uit_p_variance=None, BI1=None,
                    example_question_2=None, uio_p_mean=None, uio_p_variance=None, BI2=None,
@@ -177,6 +220,8 @@ def plot_posterior(example_question_1=None, uit_p_mean=None, uit_p_variance=None
     fig_posterior_dist.tight_layout()
     fig_posterior_dist.savefig("..\\" + figure_folder + "\\" 
                 + folder + "\\" + f"posterior {sanitize_key(example_question_1.raw_text)}.png")
+    
+    close() #close plots
 
 def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=None, 
                                     scale_expected_value_1=None, scale_expected_value_2=None,
@@ -196,6 +241,8 @@ def plot_mean_score_with_error_bars(example_question_1=None, example_question_2=
     fig_sample_means.tight_layout()
     fig_sample_means.savefig("..\\" + figure_folder + "\\" 
                 + folder + "\\" + f"expected_value_dist {sanitize_key(example_question_1.raw_text)}.png")
+    
+    close() #close plots
 
 def plot_distribution_of_differences(example_question_1=None, dif_samples=None, 
                                      dif_credible_interval=None, dif_credible_interval_gaussian_assumption=None, 
@@ -212,9 +259,9 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None,
                     fontsize=fig_title_fs)
     
     # plot confidence intervals of difference of mean scores
-    ax_dif_prop_dist.axvline(dif_credible_interval[0], color='red', linestyle='--', label="90% conf. interval (Percentiles)")
+    ax_dif_prop_dist.axvline(dif_credible_interval[0], color='red', linestyle='--', label="98% conf. interval (Percentiles)")
     ax_dif_prop_dist.axvline(dif_credible_interval[1], color='red', linestyle='--')
-    ax_dif_prop_dist.axvline(dif_credible_interval_gaussian_assumption[0], color='blue', linestyle='--', label="90% conf. interval (Gaussian assumption)")
+    ax_dif_prop_dist.axvline(dif_credible_interval_gaussian_assumption[0], color='blue', linestyle='--', label="98% conf. interval (Gaussian assumption)")
     ax_dif_prop_dist.axvline(dif_credible_interval_gaussian_assumption[1], color='blue', linestyle='--')
     ax_dif_prop_dist.legend(fontsize=fig_legend_fs)
     ax_dif_prop_dist.set_xlabel("Difference in Expected Values", fontsize=fig_axis_fs)
@@ -228,6 +275,7 @@ def plot_distribution_of_differences(example_question_1=None, dif_samples=None,
     fig_dif_prop_dist.tight_layout()
     fig_dif_prop_dist.savefig("..\\" + figure_folder + "\\"
                 + folder + "\\" + f"difference_in_expected_values distribution {sanitize_key(example_question_1.raw_text)}.png")
+    close() #close plots
 
 
 

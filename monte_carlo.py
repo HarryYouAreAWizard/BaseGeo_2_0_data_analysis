@@ -22,7 +22,7 @@ import scipy
 class MonteCarloSampler:
     """not a MCMC"""
 
-    def __init__(self, posterior_dist, num_categories=7, num_samples=100000):
+    def __init__(self, posterior_dist, num_categories=7, num_samples=10000):
 
         self.posterior_dist = posterior_dist
         self.num_samples = num_samples
@@ -58,7 +58,7 @@ class MonteCarloSampler:
         return self.dif_prop_dist
 
 
-    def credible_interval_of_differences_percentile(self, other, confidence=0.90):
+    def credible_interval_of_differences_percentile(self, other, confidence=0.98):
         """Calculate the credible interval for the difference in expected values between self and other.
         This is done by calculating the distribution of differences and then finding the percentiles corresponding 
         to the confidence level.
@@ -73,7 +73,7 @@ class MonteCarloSampler:
         return lower_bound, upper_bound
 
     
-    def credible_interval_of_differences_gaussian_assumption(self, other, confidence=0.90):
+    def credible_interval_of_differences_gaussian_assumption(self, other, confidence=0.98):
         """Calculate the credible interval for the difference in expected values between self and other,
         assuming that the distribution of differences is approximately Gaussian. This is done by calculating
         the mean and standard deviation of the difference distribution and then using the appropriate z-score 
