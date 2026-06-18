@@ -17,7 +17,7 @@ from actors import *
 
 
 
-class BayesianInference:
+class Categorial2Dirichlet:
 
     def __init__(self, question:Question, prior_alpha=np.ones(7)*1.0):
 

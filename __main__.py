@@ -10,25 +10,14 @@ Description: This script performs data analysis on the BaseGeo 2.0 survey data a
 
 
 
-from os import listdir
-from matplotlib.style import use
-import numpy as np
-from matplotlib.pyplot import subplots, show, close, title
-from scipy.stats import beta
-
-from monte_carlo import MonteCarloSampler
-# from MCMC import MonteCarloSampler # mostly for testing
-from actors import Survey, Question
+from actors import Survey
+from bayesian_inference import Categorial2Dirichlet
+from monte_carlo import DirichletSampler
 from plots import *
-from bayesian_inference import BayesianInference
-from animations import animate_monte_carlo_sampling
 
 #  global data_folder, figure_folder
 data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
-
-# control flags
-animate = 0
 
 
 def perform_analysis(survey1, survey2, question, 
@@ -69,8 +58,8 @@ def perform_analysis(survey1, survey2, question,
         return
     # ---------------------------------statistics---------------------------------
     # do Bayesian Inference    
-    BI1 = BayesianInference(example_question_1)
-    BI2 = BayesianInference(example_question_2)
+    BI1 = Categorial2Dirichlet(example_question_1)
+    BI2 = Categorial2Dirichlet(example_question_2)
 
     # extract results
     uit_p_postrior_mean = BI1.expected_value()
@@ -83,8 +72,8 @@ def perform_analysis(survey1, survey2, question,
     uio_p_prior_variance = BI2.prior_dist.var()
 
     # do monte carlo sampling to estimate average score and uncertainty
-    MC_1 = MonteCarloSampler(BI1.posterior_dist, num_samples=int(1e6))
-    MC_2 = MonteCarloSampler(BI2.posterior_dist, num_samples=int(1e6))
+    MC_1 = DirichletSampler(BI1.posterior_dist, num_samples=int(1e6))
+    MC_2 = DirichletSampler(BI2.posterior_dist, num_samples=int(1e6))
 
     # UiT - UiO
     dif_samples = MC_1.probability_dist_of_differences(MC_2)
@@ -170,5 +159,6 @@ def main():
 
     for i in range(len(survey_2026.questions)):
         print(f"{i}    2019: {survey_2019.questions[i].raw_text:<100}     | {i}    2026: {survey_2026.questions[i].raw_text}")
+
 if __name__ == "__main__":
     main()

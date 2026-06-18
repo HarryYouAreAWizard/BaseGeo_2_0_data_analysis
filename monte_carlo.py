@@ -19,7 +19,7 @@ should be substituted with a library doing Markov Chain Monte Carlo sampling
 import numpy as np
 import scipy
 
-class MonteCarloSampler:
+class DirichletSampler:
     """not a MCMC"""
 
     def __init__(self, posterior_dist, num_categories=7, num_samples=10000):
