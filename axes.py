@@ -70,7 +70,7 @@ def detect_axis(values):
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
             
-            # If above fails, try seeing if the last option from the clean axis is present in the responses (7. Strongly agree, 7. Extremely well ...)
+            # If above fails, try seeing if the last option from the clean axis is present in the responses (7. Strongly agree, 7. Extremely well ...)                
             if AXES[axis_type][axis_type][-1] in labels:
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis

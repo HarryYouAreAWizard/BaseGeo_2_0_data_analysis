@@ -50,16 +50,13 @@ class Question:
         self.sample_variance = None
         self.sample_std = None
 
+
         # if self.axis is not None and self.axis[0] not in {"unknown", "ambiguous"}:
         #     self.sample_mean, self.sample_variance = self.sample_mean_and_variance()
         # else:
         #     self.sample_mean, self.sample_variance = None, None
 
         # self.sample_std = self.sample_variance ** 0.5 if self.sample_variance is not None else None
-
-    def detect_axis(self):
-        """detect axis using the function from axes.py and store the found axis in self.axis"""
-        return detect_axis(self.responses)
 
     def get_counts(self):
         """get the counts of each response category as a pandas Series, 
@@ -73,10 +70,18 @@ class Question:
         
         if self.axis is None:
             return
-
         # count over the "dirty axis" inherent in the responses
         # x = [normalize_answer(v)[:1] for v in self.responses]   # pick out the first character of the normalized response, which should be the number if it starts with a digit
-        x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
+        try:
+            x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
+        except TypeError as e:
+            # if self.raw_text[:len("Fieldwork")] == "Fieldwork":
+            #     print("Error in response creation")
+            print(f"\n{e = }\n")
+            return
+
+
+
         # pick out numbers
         x = [int(v) for v in x if v and v[0].isdigit()]
         x  = pd.Series(x)
@@ -107,6 +112,7 @@ class Survey:
 
         self.path = path
         self.data = pd.read_excel(path)
+
         self.ids = self.data["$submission_id"].tolist()
         self.questions = self.get_questions()
     
