@@ -15,7 +15,8 @@ survey question, and the Survey class manages the collection of questions and pa
 
 import pandas as pd
 import numpy as np
-from axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
+from axes_handling.axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
+from axes_handling.axes_special_cases import predefined_axes
 
 class Participant:
     """not really used. Most of the information
@@ -69,9 +70,11 @@ class Question:
         """
         
         if self.axis is None:
-            return
-        # count over the "dirty axis" inherent in the responses
-        # x = [normalize_answer(v)[:1] for v in self.responses]   # pick out the first character of the normalized response, which should be the number if it starts with a digit
+            if self.raw_text[:len("Fieldwork skills.1")] == "Fieldwork skills.1":
+                print(f"HERE")
+                print(f"{self.responses = }")
+            return    
+    
         try:
             x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
         except TypeError as e:
@@ -79,9 +82,7 @@ class Question:
             #     print("Error in response creation")
             print(f"\n{e = }\n")
             return
-
-
-
+    
         # pick out numbers
         x = [int(v) for v in x if v and v[0].isdigit()]
         x  = pd.Series(x)
@@ -90,6 +91,8 @@ class Question:
         counts = counts.reindex(self.number_axis, # the actual axis labels 
                            fill_value=0)                    
         self.counts = counts
+
+
         return counts
 
     def sample_mean_and_variance(self):
@@ -130,6 +133,16 @@ class Survey:
         self.questions = []
         for key in self.data.keys():
             question = Question(key, self.data[key].tolist())
+            
+            # handle funky special cases
+            affected_survey_paths = predefined_axes.keys()
+            if self.path in affected_survey_paths:
+                affected_questions = predefined_axes[self.path].keys()
+                if question.raw_text in affected_questions:
+                    print("success")
+                    question.axis = predefined_axes[self.path][question.raw_text]
+                    question.get_counts()
+
             self.questions.append(question)
 
         return self.questions
@@ -137,7 +150,7 @@ class Survey:
     def search(self, query):
         """Search for questions matching the query and return a list of matching questions."""
         # matching_questions = []
-        for question in self.get_questions():
+        for question in self.questions:#self.get_questions():
             if query.lower() in question.raw_text.lower():
                 return question
 
