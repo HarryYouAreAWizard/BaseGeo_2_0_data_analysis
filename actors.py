@@ -70,10 +70,7 @@ class Question:
         """
         
         if self.axis is None:
-            if self.raw_text[:len("Fieldwork skills.1")] == "Fieldwork skills.1":
-                print(f"HERE")
-                print(f"{self.responses = }")
-            return    
+           return    
     
         try:
             x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
@@ -117,7 +114,8 @@ class Survey:
         self.data = pd.read_excel(path)
 
         self.ids = self.data["$submission_id"].tolist()
-        self.questions = self.get_questions()
+        self.get_questions()
+        # self.questions = self.get_questions()
     
     def get_participants(self):
         """participants identified from their ID"""
@@ -139,7 +137,6 @@ class Survey:
             if self.path in affected_survey_paths:
                 affected_questions = predefined_axes[self.path].keys()
                 if question.raw_text in affected_questions:
-                    print("success")
                     question.axis = predefined_axes[self.path][question.raw_text]
                     question.get_counts()
 
@@ -154,3 +151,5 @@ class Survey:
             if query.lower() in question.raw_text.lower():
                 return question
 
+        else:
+            return 0

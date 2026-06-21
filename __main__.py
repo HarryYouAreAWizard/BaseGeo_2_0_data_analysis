@@ -18,13 +18,80 @@ from bayesian_inference import Categorial2Dirichlet
 from monte_carlo import DirichletSampler
 from plots import *
 
-from hierarchical_modeleing import find_posterior_distribution
+from hierarchical_modelling import find_posterior_distribution
 #  global data_folder, figure_folder
 data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
 
 
-def perform_analysis(survey1, survey2, question, 
+def check_question_and_axes(question1s, question2s):
+        """handling potential issues with questions"""
+        
+        # ensure that the question actually were found in all surveys
+        for q in question1s + question2s:
+            if isinstance(q, int):
+                # .search returns 0 if question not found
+                return
+        
+        # ensure that all questions have initialized axes
+
+        # count missing axes for first question
+        number_of_questions1_without_axes = 0
+        for q in question1s:
+            if q.axis is None:
+                number_of_questions1_without_axes += 1
+
+        # handle case where there are no axes
+        if number_of_questions1_without_axes == 5:
+            print(f"all questions missing axes, cannot compare")
+            return
+        # handle case where one detect_axis failed
+        if number_of_questions1_without_axes == 1:
+            print(f"one question missing an axis, attempting to continue")
+            for q in question1s:
+                if q.axis is not None:
+                    proper_axis = q.axis
+            for q in question1s:
+                if q.axis is None:
+                    q.axis = proper_axis
+                elif q.axis != proper_axis:
+                    print(f"inconsistent axes, cannot compare")
+                    return
+
+        # count missing axes for second question
+        number_of_questions2_without_axes = 0
+        for q in question2s:
+            if q.axis is None:
+                number_of_questions2_without_axes += 1
+        
+        # handle case where there are no axes
+        if number_of_questions2_without_axes == 5:
+            print(f"all questions missing axes, cannot compare")
+            return
+
+        # handle case where one detect_axis failed
+        if number_of_questions2_without_axes == 1:
+            print(f"one question missing an axis, continuing")
+            for q in question2s:
+                if q.axis is not None:
+                    proper_axis = q.axis
+            for q in question2s:
+                if q.axis is None:
+                    q.axis = proper_axis
+                elif q.axis != proper_axis:
+                    print(f"inconsistent axes, cannot compare")
+                    return
+
+
+        if question1s[0].axis != question2s[0].axis:
+            print("questions have different axes, cannot compare")
+            # inconsistent axes
+            return
+    
+        return 
+
+
+def perform_BI_and_MC_analysis(survey1, survey2, question, 
                      print_results=True, 
                      gate_on_significance=False, 
                      folder="Bayesian_inference",
@@ -150,6 +217,7 @@ def perform_analysis(survey1, survey2, question,
 
     return MC_1, MC_2
 
+
 def find_viable_questions(survey1, survey2):
     """go thorugh two surveys and return a list of questions that are viable
     
@@ -239,6 +307,11 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
         uio_2019_question2 = uio_2019_survey.search(question2)
         uit_2019_question2 = uit_2019_survey.search(question2)
         unis_2019_question2 = unis_2019_survey.search(question2)
+
+        question1s = [uib_2019_question1, uibgeophys_2019_question1, uio_2019_question1, uit_2019_question1, unis_2019_question1]
+        question2s = [uib_2019_question2, uibgeophys_2019_question2, uio_2019_question2, uit_2019_question2, unis_2019_question2]
+
+        # ----------------------------Run the hierarchical model----------------------------
         
         trace_question1 = find_posterior_distribution(
             uib_2019_question1,
@@ -278,9 +351,9 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
 
     # Now you can calculate credible intervals for the change in each university group!
     # e.g., for Group 0 (UiB):
-    uib_change = difference_distribution[:, 0]
-    lower_bound = np.percentile(uib_change, 2.5)
-    upper_bound = np.percentile(uib_change, 97.5)
+    uib_change = difference_distribution[:, 0]    # example use       
+    lower_bound = np.percentile(uib_change, 2.5)  #           
+    upper_bound = np.percentile(uib_change, 97.5) #           
 
     uib_change = difference_distribution[:, 0]
     uibgeophys_change = difference_distribution[:, 1]
@@ -334,16 +407,19 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
     fig.suptitle("Example use of the hierarchical method", fontsize=fig_title_fs)
 
     fig.tight_layout()
-    fig.savefig(f"figures\\hierarchical_modeling\\change_in_{question1}_to_{question2}.png")
+    fig.savefig(f"figures\\hierarchical_modeling test\\change_in_{sanitize_key(question1)}_to_{sanitize_key(question2)}.png")
 
     close()
 
+
+
 def main():
+
     test_hierarchical_model(
         "Fieldwork skills.1",
         "Fieldwork skills",
         load_from_saved_traces=False)
-    # write_viable_questions()
+
 
     
 
