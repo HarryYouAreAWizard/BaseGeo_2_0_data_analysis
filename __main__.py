@@ -108,6 +108,7 @@ def find_viable_questions(survey1, survey2):
     viable_questions = []
     for question1 in survey1.questions:
         for question2 in survey2.questions:
+            
             if (question1.raw_text == question2.raw_text 
                 and question1.axis is not None 
                 and question2.axis is not None 
