@@ -94,7 +94,7 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False, 
     total_change = population_mean_2 - population_mean_1
     print(f"{total_change.shape = }")
 
-    # Now you can calculate credible intervals for the change in each university group!
+        # Now you can calculate credible intervals for the change in each university group!
     # e.g., for Group 0 (UiB):
     uib_change = difference_distribution[:, 0]    # example use       
     lower_bound = np.percentile(uib_change, 2.5)  #           
