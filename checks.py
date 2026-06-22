@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """
-File: __main__.py
+File: checks.py
 Author: Noah Nielsen
-Date: 2026-04-18
-Description: This script performs data analysis on the BaseGeo 2.0 survey data and generates plots.
+Date: 2026-04-22
+Description: This script checks questions
 """
 
-from actors import Survey
-from plots import sanitize_key
 
 #  global data_folder, figure_folder
+CHECK_SUCCES = 0
+CHECK_MISSING_AXES = 1
+CHECK_INCONSISTENT_AXES = 2
+CHECK_QUESTION_NOT_FOUND = 3
+
 
 def check_set_question_and_axes(questions):
     number_of_questions_without_axes = 0
@@ -21,12 +24,12 @@ def check_set_question_and_axes(questions):
 
     # handle case where there are no axes
     if number_of_questions_without_axes == 5:
-        print(f"all questions missing axes, cannot compare")
-        return
+        # print(f"all questions missing axes, cannot compare")
+        return CHECK_MISSING_AXES
     
     # handle case where one detect_axis failed
-    if number_of_questions_without_axes == 1:
-        print(f"one question missing an axis, attempting to continue")
+    if 0 < number_of_questions_without_axes < 3:
+        # print(f"one question missing an axis, attempting to continue") 
 
         # find the likely correct axis
         for q in questions:
@@ -38,11 +41,11 @@ def check_set_question_and_axes(questions):
             if q.axis is None:
                 q.axis = proper_axis
             elif q.axis != proper_axis:
-                print(f"inconsistent axes, cannot compare")
-                return
+                # print(f"inconsistent axes, cannot compare")
+                return CHECK_INCONSISTENT_AXES
 
 
-    return
+    return 0 
 
 def check_pair_of_questions(question1s, question2s):
     """handling potential issues with questions"""
@@ -51,16 +54,23 @@ def check_pair_of_questions(question1s, question2s):
     for q in question1s + question2s:
         if isinstance(q, int):
             # .search returns 0 if question not found
-            return
+            return CHECK_QUESTION_NOT_FOUND
         
-    check_set_question_and_axes(question1s)
-    check_set_question_and_axes(question2s)
+    status_1 = check_set_question_and_axes(question1s)
+    status_2 = check_set_question_and_axes(question2s)
 
+    # perform final axis check after possible axis correction
     if question1s[0].axis != question2s[0].axis:
-        print("questions have different axes, cannot compare")
+        # print("questions have different axes, cannot compare")
         # inconsistent axes
-        return
+        return CHECK_INCONSISTENT_AXES
 
-    return 
+    if status_1 != CHECK_SUCCES or status_2 != CHECK_SUCCES:
+        # print(f"{status_1 = }")
+        # print(f"{status_2 = }")
+        return -1
+
+    return CHECK_SUCCES
+
 
 
