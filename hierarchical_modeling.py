@@ -67,11 +67,19 @@ def find_posterior_distribution(
 
         # distribution of the parameter governing the distribution of the likelihood-parameter
         # alpha in the Dirichlet must be above 0 -> halfnormal
-        alpha = pm.HalfNormal(
-            'alpha', 
-            sigma=10, # sigma of the halfnormal distribution. choice based on the prior choice made during previous project, with alpha=1
+        # alpha = pm.HalfNormal(
+        #     'alpha', 
+        #     sigma=1, # sigma of the halfnormal distribution. choice based on the prior choice made during previous project, with alpha=1
+        #     shape=7 # <- one for each category
+        # )
+
+        alpha_raw = pm.HalfNormal(
+            'alpha_raw', 
+            sigma=1, # sigma of the halfnormal distribution. choice based on the prior choice made during previous project, with alpha=1
             shape=7 # <- one for each category
         )
+        alpha = pm.Deterministic("alpha", alpha_raw+1.0)
+
 
         # distribution of the likelihood-parameter
         # choose distribution for theta, the distribution of the parameter of the likelihoood

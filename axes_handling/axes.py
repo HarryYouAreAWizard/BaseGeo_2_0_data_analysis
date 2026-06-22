@@ -47,6 +47,9 @@ def detect_axis(values):
      - If exactly one axis matches, returns that axis and its labels.
      - If no axes match, returns "unknown" and the unique normalized labels.
      - If multiple axes match (should not happen if axes are disjoint), returns "ambiguous".
+
+    This function fails to detect it, if there are multiple fits
+
     """
     # clean and normalize the input values to get a set of unique labels
     labels = {normalize_answer(v) for v in values}

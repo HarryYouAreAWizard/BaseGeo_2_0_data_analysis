@@ -40,7 +40,7 @@ class Question:
         """is called from survey class."""
         self.year = year
         self.raw_text = key
-        self.responses = responses
+        self.responses = [str(r) for r in responses]
         self.axis = detect_axis(responses)
         self.number_axis = range(1, 8)  # default to 7 point scale, can be adjusted if needed
         self.counts = self.get_counts()
@@ -51,15 +51,7 @@ class Question:
         self.sample_mean = None
         self.sample_variance = None
         self.sample_std = None
-
-
-        # if self.axis is not None and self.axis[0] not in {"unknown", "ambiguous"}:
-        #     self.sample_mean, self.sample_variance = self.sample_mean_and_variance()
-        # else:
-        #     self.sample_mean, self.sample_variance = None, None
-
-        # self.sample_std = self.sample_variance ** 0.5 if self.sample_variance is not None else None
-
+        
     def get_counts(self):
         """get the counts of each response category as a pandas Series, 
         using the axis labels as index. If the axis is not detected, 
@@ -69,12 +61,12 @@ class Question:
         in the original axis label for "1." then we still count the number of
         "1."s in the answers 
         """
-        
+
         if self.axis is None:
-           return    
+            return    
     
         try:
-            x = [response[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
+            x = [str(response)[:1] for response in self.responses if normalize_answer(response) is not None]   # pick out the first character of the response, which should be the number if it starts with a digit
         except TypeError as e:
             # if self.raw_text[:len("Fieldwork")] == "Fieldwork":
             #     print("Error in response creation")

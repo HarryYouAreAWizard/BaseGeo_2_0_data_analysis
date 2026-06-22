@@ -28,7 +28,7 @@ def check_set_question_and_axes(questions):
         return CHECK_MISSING_AXES
     
     # handle case where one detect_axis failed
-    if 0 < number_of_questions_without_axes < 3:
+    if 0 < number_of_questions_without_axes < 5:
         # print(f"one question missing an axis, attempting to continue") 
 
         # find the likely correct axis
@@ -42,6 +42,8 @@ def check_set_question_and_axes(questions):
                 q.axis = proper_axis
             elif q.axis != proper_axis:
                 # print(f"inconsistent axes, cannot compare")
+                # print(f"{q.axis = }")
+                # print(f"{proper_axis = }")
                 return CHECK_INCONSISTENT_AXES
 
 
@@ -60,14 +62,13 @@ def check_pair_of_questions(question1s, question2s):
     status_2 = check_set_question_and_axes(question2s)
 
     # perform final axis check after possible axis correction
-    if question1s[0].axis != question2s[0].axis:
-        # print("questions have different axes, cannot compare")
-        # inconsistent axes
-        return CHECK_INCONSISTENT_AXES
+    # all axes must be the same
+    one_of_the_axes = question1s[0].axis
+    for q in question1s + question2s:
+        if q.axis != one_of_the_axes:
+            return CHECK_INCONSISTENT_AXES
 
     if status_1 != CHECK_SUCCES or status_2 != CHECK_SUCCES:
-        # print(f"{status_1 = }")
-        # print(f"{status_2 = }")
         return -1
 
     return CHECK_SUCCES
