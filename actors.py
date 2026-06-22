@@ -36,8 +36,9 @@ class Participant:
 
 class Question:
     """Represents a question in survey and contain all relevant data"""
-    def __init__(self, key, responses):
+    def __init__(self, key, responses, year=None):
         """is called from survey class."""
+        self.year = year
         self.raw_text = key
         self.responses = responses
         self.axis = detect_axis(responses)
@@ -111,6 +112,8 @@ class Survey:
     def __init__(self, path):
 
         self.path = path
+        self.name = path.split("\\")[-1][:-len(".xlsx")]
+        self.year = self.name.split("_")[1]
         self.data = pd.read_excel(path)
 
         self.ids = self.data["$submission_id"].tolist()
@@ -130,7 +133,7 @@ class Survey:
         """initialize all questions in the dataset"""
         self.questions = []
         for key in self.data.keys():
-            question = Question(key, self.data[key].tolist())
+            question = Question(key, self.data[key].tolist(), self.year)
             
             # handle funky special cases
             affected_survey_paths = predefined_axes.keys()

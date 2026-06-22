@@ -10,8 +10,7 @@ Description: This script performs data analysis on the BaseGeo 2.0 survey data a
 
 
 
-import os
-from pdb import pm
+import matplotlib.pyplot as plt
 
 from actors import Survey
 from bayesian_inference import Categorial2Dirichlet
@@ -19,6 +18,7 @@ from monte_carlo import DirichletSampler
 from plots import *
 
 from hierarchical_modelling import find_posterior_distribution
+import arviz as az
 #  global data_folder, figure_folder
 data_folder = "BaseGeo_2_0\\all data excel"
 figure_folder = "BaseGeo_2_0\\figures"
@@ -282,6 +282,8 @@ def write_viable_questions():
 
     return 
 
+
+
 def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
 
     if not load_from_saved_traces:
@@ -302,6 +304,7 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
         uio_2019_question1 = uio_2019_survey.search(question1)
         uit_2019_question1 = uit_2019_survey.search(question1)
         unis_2019_question1 = unis_2019_survey.search(question1)
+
         uib_2019_question2 = uib_2019_survey.search(question2)
         uibgeophys_2019_question2 = uibgeophys_2019_survey.search(question2)
         uio_2019_question2 = uio_2019_survey.search(question2)
@@ -328,22 +331,29 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
             unis_2019_question2)
 
         # save scores 
-        scores_y1 = trace_question1.posterior['expected_scores'].values.reshape(-1, 5)
-        scores_y2 = trace_question2.posterior['expected_scores'].values.reshape(-1, 5)
+        scores_y1 = trace_question1.posterior['group_mean_scores'].values.reshape(-1, 5)
+        scores_y2 = trace_question2.posterior['group_mean_scores'].values.reshape(-1, 5)
         population_mean_1 = trace_question1.posterior["population_mean_score"].values.flatten()
         population_mean_2 = trace_question2.posterior["population_mean_score"].values.flatten()
         np.save("scores\\hierarchical_modeling\\score1.npy", scores_y1)
         np.save("scores\\hierarchical_modeling\\score2.npy", scores_y2)
         np.save("scores\\hierarchical_modeling\\mean_pop_score1.npy", population_mean_1)
         np.save("scores\\hierarchical_modeling\\mean_pop_score2.npy", population_mean_2)
-
+        # use arviz for a raw plot/diagnostics
+        filename1 = f"Arviz raw posteriors\n{sanitize_key(question1)}"
+        filename2 = f"Arviz raw posteriors\n{sanitize_key(question2)}"
+        azplot1 = az.plot_trace_dist(trace_question1, combined=True)
+        azplot2 = az.plot_trace_dist(trace_question2, combined=True)
+        azplot1.add_title(filename1 + f"\n{question1s[0].year}")
+        azplot2.add_title(filename2 + f"\n{question2s[0].year}")
+        azplot1.savefig(f"figures\\hierarchical_modeling test\\{filename1}.png")
+        azplot2.savefig(f"figures\\hierarchical_modeling test\\{filename2}.png")
     else:
         print("loading...")
         scores_y1 = np.load("scores\\hierarchical_modeling\\score1.npy")
         scores_y2 = np.load("scores\\hierarchical_modeling\\score2.npy")
         population_mean_1 = np.load("scores\\hierarchical_modeling\\mean_pop_score1.npy")
         population_mean_2 = np.load("scores\\hierarchical_modeling\\mean_pop_score2.npy")
-
     
     print("calculating difference distributions...")
     # 4. Calculate the difference distribution per group
@@ -400,25 +410,25 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
     axs[0, 2].set_title("Change in UiO", fontsize=ax_title_fs)
     axs[1, 0].set_title("Change in UiT", fontsize=ax_title_fs)
     axs[1, 1].set_title("Change in UNIS", fontsize=ax_title_fs)
-    axs[1, 2].set_title("Change in overall population", fontsize=ax_title_fs)
+    axs[1, 2].set_title("Change in population", fontsize=ax_title_fs)
     for ax in axs.flatten(): 
         ax.tick_params(axis="both", which="major", labelsize=fig_tick_fs, labelbottom=True)
         ax.legend()
     fig.suptitle("Example use of the hierarchical method", fontsize=fig_title_fs)
 
     fig.tight_layout()
-    fig.savefig(f"figures\\hierarchical_modeling test\\change_in_{sanitize_key(question1)}_to_{sanitize_key(question2)}.png")
+    filename = f"change_in_{sanitize_key(question1)}_to_{sanitize_key(question2)}.png"
+    print(f"saving as {filename}")
+    fig.savefig(f"figures\\hierarchical_modeling test\\{filename}")
 
     close()
-
-
 
 def main():
 
     test_hierarchical_model(
         "Fieldwork skills.1",
         "Fieldwork skills",
-        load_from_saved_traces=False)
+        load_from_saved_traces=0)
 
 
     
