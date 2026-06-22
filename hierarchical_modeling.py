@@ -101,8 +101,8 @@ def find_posterior_distribution(
 
         # --- Run the MCMC Simulation ---
         trace = pm.sample(
-            draws=10,#2000, 
-            tune=10,#1000, 
+            draws=2000, 
+            tune=1000, 
             target_accept=0.95, 
             nuts_sampler="numpyro", 
             return_inferencedata=True
