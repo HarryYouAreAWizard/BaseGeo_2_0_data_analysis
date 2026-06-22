@@ -10,7 +10,7 @@ from actors import Survey
 from hierarchical_modeling import find_posterior_distribution
 import arviz as az
 
-def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
+def test_hierarchical_model(question1, question2, load_from_saved_traces=False, quiet=False):
 
     if not load_from_saved_traces:
         uib_2019_survey_path = r"..\2019data\uib_2019_students.xlsx"
@@ -38,9 +38,6 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
         uit_2019_question2 = uit_2019_survey.search(question2)
         unis_2019_question2 = unis_2019_survey.search(question2)
 
-        print(f"{uib_2019_question1.counts.values = }")
-        print(f"{uib_2019_question2.counts.values = }")
-
         question1s = [uib_2019_question1, uibgeophys_2019_question1, uio_2019_question1, uit_2019_question1, unis_2019_question1]
         question2s = [uib_2019_question2, uibgeophys_2019_question2, uio_2019_question2, uit_2019_question2, unis_2019_question2]
 
@@ -53,14 +50,18 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
             uibgeophys_2019_question1,
             uio_2019_question1,
             uit_2019_question1,
-            unis_2019_question1)
+            unis_2019_question1,
+            quiet=quiet
+            )
         
         trace_question2 = find_posterior_distribution(
             uib_2019_question2,
             uibgeophys_2019_question2,
             uio_2019_question2,
             uit_2019_question2,
-            unis_2019_question2)
+            unis_2019_question2,
+            quiet=quiet
+            )
 
         # save scores 
         scores_y1 = trace_question1.posterior['group_mean_scores'].values.reshape(-1, 5)
@@ -152,5 +153,3 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False):
     filename = f"change_in_{sanitize_key(question1)}_to_{sanitize_key(question2)}"
     print(f"saving as {filename}")
     fig.savefig(f"..\\figures\\hierarchical_modeling test\\{filename}.png")
-
-    close()

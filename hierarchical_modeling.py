@@ -44,7 +44,8 @@ def find_posterior_distribution(
         question_uibgeophys,
         question_uio,
         question_uit,
-        question_unis):
+        question_unis,
+        quiet=False):
     
     # 1. Stack the counts from the 5 university groups into a (5, 7) matrix
     counts_data = concatenate_counts(
@@ -105,7 +106,8 @@ def find_posterior_distribution(
             tune=1000, 
             target_accept=0.95, 
             nuts_sampler="numpyro", 
-            return_inferencedata=True
+            return_inferencedata=True,
+            quiet=quiet
         )
 
     # the trace object contain the internal MCMC parameters, 
