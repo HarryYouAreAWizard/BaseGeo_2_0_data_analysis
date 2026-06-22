@@ -108,7 +108,7 @@ def find_posterior_distribution(
 
 
 
-        # --- Run the MCMC Simulation ---
+        # --- Run the MCMC Simulation 
         trace = pm.sample(
             draws=2000, 
             tune=1000, 

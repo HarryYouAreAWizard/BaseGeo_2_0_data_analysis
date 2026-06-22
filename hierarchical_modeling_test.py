@@ -91,6 +91,8 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False, 
     print("calculating difference distributions...")
     # 4. Calculate the difference distribution per group
     difference_distribution = scores_y2 - scores_y1
+    total_change = population_mean_2 - population_mean_1
+    print(f"{total_change.shape = }")
 
     # Now you can calculate credible intervals for the change in each university group!
     # e.g., for Group 0 (UiB):
@@ -103,8 +105,6 @@ def test_hierarchical_model(question1, question2, load_from_saved_traces=False, 
     uio_change = difference_distribution[:, 2]
     uit_change = difference_distribution[:, 3]
     unis_change = difference_distribution[:, 4]
-    total_change = population_mean_2 - population_mean_1
-    print(f"{total_change.shape = }")
     # bounds for 95% credible interval
     uib_lower_bound = np.percentile(uib_change, 2.5)
     uibgeophys_lower_bound = np.percentile(uibgeophys_change, 2.5)
