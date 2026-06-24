@@ -113,7 +113,10 @@ class Survey:
         # self.questions = self.get_questions()
     
     def get_participants(self):
-        """participants identified from their ID"""
+        """participants identified from their ID
+        
+        This function is not used
+        """
         self.participants = []
         for id in self.ids:
             answers = self.data[self.data["$submission_id"] == id]
@@ -143,7 +146,9 @@ class Survey:
         """Search for questions matching the query and return a list of matching questions."""
         # matching_questions = []
         for question in self.questions:#self.get_questions():
-            if query.lower() in question.raw_text.lower():
+            # if query.lower() in question.raw_text.lower():
+            if query.lower() == question.raw_text.lower():
+                # print(f"Found question: {question.raw_text} in survey {self.name}")
                 return question
 
         else:
