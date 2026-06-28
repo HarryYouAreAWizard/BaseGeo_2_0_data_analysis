@@ -160,6 +160,50 @@ AXES_extent = {
         "6.",
         "7. Extremely well",
         "I don't know"
+    ],
+    "extent_with_2_typos": [
+        "1. Extremenly little",
+        "2.",
+        "3.",
+        "4. Neutral",
+        "5.",
+        "6.",
+        "7. Extremely welll",
+        "I don't know"
+    ],
+    "extent_with_1_typo": [
+        "1. Extremely little",
+        "2.",
+        "3.",
+        "4. Neutral",
+        "5.",
+        "6.",
+        "7. Extremely welll",
+        "I don't know"
+    ]
+}
+
+AXES_occurence_reverse = {
+    "occurence_reverse": [
+        "1. Very often",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7. Very rarely"
+    ]
+}
+
+AXES_nolabels = {
+    "nolabels": [
+        "1.",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7."
     ]
 }
 
@@ -168,4 +212,7 @@ AXES = {
     "agreement": AXES_agreements,
     "importance": AXES_importance,
     "extent": AXES_extent,
+    "occurence_reverse": AXES_occurence_reverse,
+    "nolabels": AXES_nolabels
+
 }

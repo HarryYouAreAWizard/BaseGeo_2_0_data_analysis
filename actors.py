@@ -101,17 +101,19 @@ class Question:
 
 class Survey:
 
-    def __init__(self, path):
+    def __init__(self, path=None):
 
-        self.path = path
-        self.name = path.split("\\")[-1][:-len(".xlsx")]
-        self.year = self.name.split("_")[1]
-        self.data = pd.read_excel(path)
 
-        self.ids = self.data["$submission_id"].tolist()
-        self.get_questions()
-        # self.questions = self.get_questions()
-    
+        if path is not None:
+            self.path = path
+            self.name = path.split("\\")[-1][:-len(".xlsx")]
+            self.year = self.name.split("_")[1]
+            self.data = pd.read_excel(path)
+
+            self.ids = self.data["$submission_id"].tolist()
+            self.get_questions()
+            # self.questions = self.get_questions()
+        
     def get_participants(self):
         """participants identified from their ID
         
@@ -135,7 +137,13 @@ class Survey:
             if self.path in affected_survey_paths:
                 affected_questions = predefined_axes[self.path].keys()
                 if question.raw_text in affected_questions:
-                    question.axis = predefined_axes[self.path][question.raw_text]
+
+                    if question.raw_text == "How satisfied are you with the study environment?":
+                        print(f"{self.path = }")
+                        print("HERE")
+
+                    print(f"{question.raw_text = }")
+                    question.axis = predefined_axes[self.path][question.raw_text]#, predefined_axes[self.path][question.raw_text]
                     question.get_counts()
 
             self.questions.append(question)
@@ -144,15 +152,53 @@ class Survey:
     
     def search(self, query):
         """Search for questions matching the query and return a list of matching questions."""
-        # matching_questions = []
-        for question in self.questions:#self.get_questions():
-            # if query.lower() in question.raw_text.lower():
+
+        for question in self.questions:
             # check is they match exactly, ignoring case and whitespace
             if query.lower().strip() == question.raw_text.lower().strip():
-            # if query.lower() == question.raw_text.lower():
 
-                # print(f"Found question: {question.raw_text} in survey {self.name}")
                 return question
-
         else:
-            return 0
+            return 0 # <- a digit, allowing us to detect when no match was found
+
+
+def fuse_surveys(survey1, survey2):
+    """fuse two surveys into one, combining the responses for the shared questions
+    
+    using this function is ill advised, since we do not know what the text before the question was"""
+    
+    
+    fused_survey = Survey()  # create a new survey object with the path of the first survey
+    fused_survey.questions = []
+    for question1 in survey1.questions:
+
+        if question1.axis is None:
+            continue  # skip questions without a detected axis
+
+        question2 = survey2.search(question1.raw_text)
+
+
+        if isinstance(question2, int):
+            # print(f"{question1.raw_text = }")
+            continue  # skip if the question is not found in the second survey
+        # print(f"{question2.raw_text = }")
+
+        if not question2:
+            continue  # skip if the question is not found in the second survey
+    
+        if question2.axis is None:
+            continue  # skip questions without a detected axis in the second survey
+
+        if question1.axis[0] != question2.axis[0]:
+            print(f"Axis mismatch for question '{question1.raw_text}': {question1.axis[0]} vs {question2.axis[0]}")
+            continue  # skip if the axes do not match
+
+        # combine responses from both surveys
+        combined_responses = question1.responses + question2.responses
+        fused_survey.questions.append(Question(question1.raw_text, combined_responses, year=f"{survey1.year}_{survey2.year}")) 
+
+    # ensure counts are initialized
+    for question in fused_survey.questions:
+        question.get_counts()
+
+    return fused_survey

@@ -25,7 +25,7 @@ ax_tick_fs = 10
 
 def sanitize_key(key):
     bad_chars = [
-        "?", "/", "."
+        "?", "/", ".", "*"
     ]
     for bad_char in bad_chars:
         key = key.replace(bad_char, "")

@@ -10,6 +10,12 @@ from axes_handling.axes_container import *
 
 predefined_axes = {
     '2019data\\uibgeophys_2019_students.xlsx': {
-        "Fieldwork skills.1": AXES_extent["extent"]
-    }
+        "Fieldwork skills.1": ("extent", AXES_extent["extent"])
+    },
+    '..\\2019data\\uibgeophys_2019_students.xlsx': {
+        "Fieldwork skills.1": ("extent", AXES_extent["extent"])
+    },
+    '..\\2026data\\data_2026_students.xlsx': {
+        'How satisfied are you with the study environment?' : ("nolabels", AXES_nolabels["nolabels"]),
+    } 
 }
