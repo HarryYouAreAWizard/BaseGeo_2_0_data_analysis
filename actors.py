@@ -147,7 +147,10 @@ class Survey:
         # matching_questions = []
         for question in self.questions:#self.get_questions():
             # if query.lower() in question.raw_text.lower():
-            if query.lower() == question.raw_text.lower():
+            # check is they match exactly, ignoring case and whitespace
+            if query.lower().strip() == question.raw_text.lower().strip():
+            # if query.lower() == question.raw_text.lower():
+
                 # print(f"Found question: {question.raw_text} in survey {self.name}")
                 return question
 
