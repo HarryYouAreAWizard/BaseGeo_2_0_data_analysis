@@ -216,3 +216,11 @@ AXES = {
     "nolabels": AXES_nolabels
 
 }
+
+
+map_typos = {
+    "1. Stongly disagree": "Strongly disagree",
+    "1. Extremenly little": "1. Extremely little",
+    "7. Extremely welll": "7. Extremely well",
+    "7. Very rarely": "7. Very rarely",
+}

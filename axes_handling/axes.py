@@ -78,10 +78,10 @@ def detect_axis(values):
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
             
-            if "7. Extremely welll" in labels:
-                print("Edge case")
-                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
-                return axis
+            # if "7. Extremely welll" in labels:
+            #     print("Edge case")
+            #     axis = axis_type, AXES[axis_type][axis_type] # pick clean version
+            #     return axis
             
     # not all questions have well defined axes
     return None
