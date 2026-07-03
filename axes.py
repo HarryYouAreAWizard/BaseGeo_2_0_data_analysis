@@ -12,7 +12,7 @@ category. It handles various formats of survey responses and maps them to predef
 
 import pandas as pd
 import re
-from axes_handling.axes_container import AXES
+from axes_container import AXES
 
 UNIVERSAL_OPTIONS = [
     "Not applicable",

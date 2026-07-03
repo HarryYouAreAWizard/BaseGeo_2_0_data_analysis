@@ -6,7 +6,7 @@ that uniquely identifies the axis
 
 following is a dictionary where with predefined axes"""
 
-from axes_handling.axes_container import *
+from axes_container import *
 
 predefined_axes = {
     '2019data\\uibgeophys_2019_students.xlsx': {
