@@ -91,6 +91,27 @@ def load_2019_data_educators():
     df_uit_2019_educators_raw = pd.read_excel(df_uit_2019_educators_path)
     df_unis_2019_educators_raw = pd.read_excel(df_unis_2019_educators_path)
 
+    # define special cases for the 2019 educators data
+    special_cases = {
+        "My own role/ experiences as a teacher":
+            "My own role / experiences as a teacher",
+    }
+
+    # if key exist in dataframe, create a column with the value and fill it with the responses from the key column
+    for key, value in special_cases.items():
+        if key in df_uib_2019_educators_raw.columns:
+            df_uib_2019_educators_raw[value] = df_uib_2019_educators_raw[key]
+        if key in df_uibgeophys_2019_educators_raw.columns:
+            df_uibgeophys_2019_educators_raw[value] = df_uibgeophys_2019_educators_raw[key]
+        if key in df_uio_2019_educators_raw.columns:
+            df_uio_2019_educators_raw[value] = df_uio_2019_educators_raw[key]
+        if key in df_uit_2019_educators_raw.columns:
+            df_uit_2019_educators_raw[value] = df_uit_2019_educators_raw[key]
+        if key in df_unis_2019_educators_raw.columns:
+            df_unis_2019_educators_raw[value] = df_unis_2019_educators_raw[key]
+
+
+
     # merge dataframes with the questions available in all dataframes
     common_questions_educators_2019 = list(
         set(df_uib_2019_educators_raw.columns) 
@@ -343,3 +364,68 @@ def merge_2019_with_2026(
         common_questions_educators, 
         common_questions_admintech
     )
+
+
+
+def load_loose_educators_data_2019():
+    """Load all the data from 2019 survey. Use special cases to allow
+    merging of questions that are not exactly the same in all surveys."""
+    df_uib_2019_educators_path = "..\\2019data\\uib_2019_educators.xlsx"
+    df_uibgeophys_2019_educators_path = "..\\2019data\\uibgeophys_2019_educators.xlsx"
+    df_uio_2019_educators_path = "..\\2019data\\uio_2019_educators.xlsx"
+    df_uit_2019_educators_path = "..\\2019data\\uit_2019_educators.xlsx"
+    df_unis_2019_educators_path = "..\\2019data\\unis_2019_educators.xlsx"
+    df_uib_2019_educators_raw = pd.read_excel(df_uib_2019_educators_path)
+    df_uibgeophys_2019_educators_raw = pd.read_excel(df_uibgeophys_2019_educators_path)
+    df_uio_2019_educators_raw = pd.read_excel(df_uio_2019_educators_path)
+    df_uit_2019_educators_raw = pd.read_excel(df_uit_2019_educators_path)
+    df_unis_2019_educators_raw = pd.read_excel(df_unis_2019_educators_path)
+
+    # define special cases for the 2019 educators data
+    special_cases = {
+        "To what extent do you think there is coherence (connectedness) between the courses in the study programme?":
+            "To what extent is there coherence (connectedness) between the courses in the study programme?",
+        "To what extent does the education at your institution prepare students for their future work in geoscience?":
+            "To what extent does the education prepare students for future work in geoscience?",
+        "My own role/ experiences as a teacher":
+            "My own role / experiences as a teacher",
+    }
+
+    # if key exist in dataframe, create a column with the value and fill it with the responses from the key column
+    for key, value in special_cases.items():
+        if key in df_uib_2019_educators_raw.columns:
+            df_uib_2019_educators_raw[value] = df_uib_2019_educators_raw[key]
+        if key in df_uibgeophys_2019_educators_raw.columns:
+            df_uibgeophys_2019_educators_raw[value] = df_uibgeophys_2019_educators_raw[key]
+        if key in df_uio_2019_educators_raw.columns:
+            df_uio_2019_educators_raw[value] = df_uio_2019_educators_raw[key]
+        if key in df_uit_2019_educators_raw.columns:
+            df_uit_2019_educators_raw[value] = df_uit_2019_educators_raw[key]
+        if key in df_unis_2019_educators_raw.columns:
+            df_unis_2019_educators_raw[value] = df_unis_2019_educators_raw[key]
+    # merge dataframes with the questions available in all dataframes
+    common_questions_educators_2019 = list(
+        set(df_uib_2019_educators_raw.columns) &
+        set(df_uibgeophys_2019_educators_raw.columns) &
+        set(df_uio_2019_educators_raw.columns) &
+        set(df_uit_2019_educators_raw.columns) &
+        set(df_unis_2019_educators_raw.columns)
+    )
+
+    # pick out the common questions from each dataframe
+    df_uib_2019_educators_common_questions = df_uib_2019_educators_raw[common_questions_educators_2019].copy()
+    df_uibgeophys_2019_educators_common_questions = df_uibgeophys_2019_educators_raw[common_questions_educators_2019].copy()
+    df_uio_2019_educators_common_questions = df_uio_2019_educators_raw[common_questions_educators_2019].copy()
+    df_uit_2019_educators_common_questions = df_uit_2019_educators_raw[common_questions_educators_2019].copy()
+    df_unis_2019_educators_common_questions = df_unis_2019_educators_raw[common_questions_educators_2019].copy()
+
+    # merge the dataframes containing only the common questions
+    df_2019_educators_raw = pd.concat([
+        df_uib_2019_educators_common_questions,
+        df_uibgeophys_2019_educators_common_questions,
+        df_uio_2019_educators_common_questions,
+        df_uit_2019_educators_common_questions,
+        df_unis_2019_educators_common_questions
+    ], ignore_index=True)
+
+    return df_2019_educators_raw, common_questions_educators_2019

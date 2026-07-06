@@ -15,8 +15,8 @@ survey question, and the Survey class manages the collection of questions and pa
 
 import pandas as pd
 import numpy as np
-from axes_handling.axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
-from axes_handling.axes_special_cases import predefined_axes
+from axes import UNIVERSAL_OPTIONS, detect_axis, normalize_answer
+from axes_special_cases import predefined_axes
 
 class Participant:
     """not really used. Most of the information

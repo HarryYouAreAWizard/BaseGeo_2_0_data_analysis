@@ -183,6 +183,18 @@ AXES_extent = {
     ]
 }
 
+AXES_amount = {
+    "amount": [
+        "1. Extremely little",
+        "2.",
+        "3.",
+        "4.",
+        "5.",
+        "6.",
+        "7. Very much",
+    ]
+}
+
 AXES_occurence_reverse = {
     "occurence_reverse": [
         "1. Very often",
@@ -223,4 +235,6 @@ map_typos = {
     "1. Extremenly little": "1. Extremely little",
     "7. Extremely welll": "7. Extremely well",
     "7. Very rarely": "7. Very rarely",
+    "3. Rerely": "3. Rarely",
+    "2. Very rerely": "2. Very rarely"
 }
