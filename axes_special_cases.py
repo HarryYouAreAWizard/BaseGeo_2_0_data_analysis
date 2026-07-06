@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 
 """some axes end up not getting an axis because they coincidencially does not have any responses 
