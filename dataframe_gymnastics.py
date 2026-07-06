@@ -291,3 +291,55 @@ def load_2026_data_admintech_filter_with_2019(common_questions_2019_admintech):
 
     df_2026_admintech = convert_text_university_to_numeric_2026(df_2026_admintech)
     return df_2026_admintech
+
+
+def merge_2019_with_2026(
+    df_2019_students, 
+    df_2019_educators, 
+    df_2019_admintech, 
+    df_2026_students, 
+    df_2026_educators, 
+    df_2026_admintech):
+    # students
+    common_questions_students = list(
+          set(df_2019_students.columns) 
+        & set(df_2026_students.columns)
+    )
+    df_2019_students_ready_to_merge = df_2019_students[common_questions_students].copy()
+    df_2026_students_ready_to_merge = df_2026_students[common_questions_students].copy()
+    df_students = pd.concat([df_2019_students_ready_to_merge, df_2026_students_ready_to_merge], ignore_index=True)
+
+    # educators
+    common_questions_educators = list(
+          set(df_2019_educators.columns) 
+        & set(df_2026_educators.columns)
+    )
+    df_2019_educators_ready_to_merge = df_2019_educators[common_questions_educators].copy()
+    df_2026_educators_ready_to_merge = df_2026_educators[common_questions_educators].copy()
+    df_educators = pd.concat([df_2019_educators_ready_to_merge, df_2026_educators_ready_to_merge], ignore_index=True)
+
+    # admintech
+    common_questions_admintech = list(
+          set(df_2019_admintech.columns) 
+        & set(df_2026_admintech.columns)
+    )
+    df_2019_admintech_ready_to_merge = df_2019_admintech[common_questions_admintech].copy()
+    df_2026_admintech_ready_to_merge = df_2026_admintech[common_questions_admintech].copy()
+    df_admintech = pd.concat([df_2019_admintech_ready_to_merge, df_2026_admintech_ready_to_merge], ignore_index=True)
+
+
+    # example_question = "Have you experienced strong stress symptoms * in your study up to the exam?"
+    # example_question = "Theoretical understanding.1"
+    # example_question = "year"
+    # df_2019_students[example_question].value_counts()
+    # df_2026_students[example_question].value_counts()
+    # df_students[example_question].value_counts()
+
+    return (
+        df_students, 
+        df_educators, 
+        df_admintech, 
+        common_questions_students, 
+        common_questions_educators, 
+        common_questions_admintech
+    )
