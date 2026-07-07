@@ -59,29 +59,26 @@ def detect_axis(values):
     for axis_type in AXES.keys(): # frequency, importance, extent ...
         for axis_variation, axis_labels in AXES[axis_type].items(): # clean, with doubt, with typo ...
 
-            # assemble a set of allowed labels for this specific acis variation
-            allowed = set(axis_labels) or set(UNIVERSAL_OPTIONS)
-
-            # check is the responses form a subset of the allowed labels for this axis variation
-            if 0 and labels.issubset(allowed): 
-                # this function is suspected to be incorrect
-                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
+            # special cases
+            # if numeric
+            labels = [str(label) for label in labels]
+            # still check last option from clean axis. it might be 7.0
+            if "7.0" in labels or "6.0" in labels:
+                # print(f"{labels = }")
+                axis = "nolabels", AXES["nolabels"]["nolabels"]
                 return axis
-            
-            # if above fails try seeing if the first option from the clean axis is present in the responses (1. Strongly disagree, 1. Extremely little ...)
-            if axis_labels[0] in labels:
-                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
-                return axis
-            
-            # If above fails, try seeing if the last option from the clean axis is present in the responses (7. Strongly agree, 7. Extremely well ...)                
+                        
+            # try seeing if the last option from the clean axis is present in the responses (7. Strongly agree, 7. Extremely well ...)                
             if AXES[axis_type][axis_type][-1] in labels:
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
             
-            # if "7. Extremely welll" in labels:
-            #     print("Edge case")
-            #     axis = axis_type, AXES[axis_type][axis_type] # pick clean version
-            #     return axis
+            # try seeing if the first option from the clean axis is present in the responses (1. Strongly disagree, 1. Extremely little ...)
+            if axis_labels[0] in labels:
+                axis = axis_type, AXES[axis_type][axis_type] # pick clean version
+                return axis
+        
+       
             
     # not all questions have well defined axes
     return None
