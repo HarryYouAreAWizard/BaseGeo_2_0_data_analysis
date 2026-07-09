@@ -26,7 +26,7 @@ def make_unconstrained_model(question, dataframe, quiet=False):
             sigma=3, 
             transform=pm.distributions.transforms.ordered,  
             initval=cutpoints_init,
-            shape=num_splits
+            shape=num_splits # is this not implied by the initval?
         )
 
         # 2. Unconstrained Population Slopes
@@ -40,6 +40,7 @@ def make_unconstrained_model(question, dataframe, quiet=False):
         slope_groups = pm.Deterministic("slope_groups", slope_mu + slope_groups_offset * slope_sigma)
 
         # 4. Group Intercepts (Shape: num_groups -> 5)
+        # still onyl one intercept per group, since the cutpoints handle the thresholds
         intercept_sigma_population = pm.HalfNormal("intercept_sigma_population", sigma=1)
         intercept_groups_offset = pm.Normal("intercept_groups_offset", mu=0, sigma=1, size=num_groups)
         intercept_groups = pm.Deterministic("intercept_groups", intercept_groups_offset * intercept_sigma_population)
