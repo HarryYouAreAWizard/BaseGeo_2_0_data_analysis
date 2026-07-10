@@ -13,7 +13,7 @@ import pytensor.tensor as pt  # Standard for PyMC v5+ (use aesara.tensor as at i
 K = 7 # number of choices on likert scale
 num_groups = 5 # number of groups
 
-def make_unconstrained_model(question, dataframe, quiet=False):
+def unconstrained_model(question, dataframe, quiet=False):
     num_splits = K - 1 # 6 splits for a 7-point scale
 
     with pm.Model() as model:
