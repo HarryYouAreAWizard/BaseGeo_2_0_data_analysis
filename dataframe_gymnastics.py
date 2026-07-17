@@ -123,6 +123,12 @@ def load_2019_data_educators():
     special_cases = {
         "My own role/ experiences as a teacher":
             "My own role / experiences as a teacher",
+        "To what extent is there coherence (connectedness) between the courses in the study programme?": 
+            "To what extent do you think there is coherence (connectedness) between the courses in the study programme?",
+        "To what extent does the education prepare students for future work in geoscience?":
+            "To what extent do you think the education at your institution prepare students for their future work in geoscience?",
+        "To what extent does the education at your institution prepare students for their future work in geoscience?":
+            "To what extent do you think the education at your institution prepare students for their future work in geoscience?",
     }
 
     # rename columns in the dataframes based on the special cases
