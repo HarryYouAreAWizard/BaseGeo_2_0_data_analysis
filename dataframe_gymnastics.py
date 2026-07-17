@@ -552,7 +552,14 @@ def load_loose_educators_data_2019():
     # define special cases for the 2019 educators data
     special_cases = {
         "To what extent do you think there is coherence (connectedness) between the courses in the study programme?":
+
+
             "To what extent is there coherence (connectedness) between the courses in the study programme?",
+
+
+
+
+
         "To what extent does the education at your institution prepare students for their future work in geoscience?":
             "To what extent does the education prepare students for future work in geoscience?",
         "My own role/ experiences as a teacher":
@@ -634,7 +641,7 @@ def load_loose_educators_data_2019():
 
     df_2019_educators_population = convert_text_university_to_numeric_2019_educators(df_2019_educators_population)
 
-
+    # only save "population", which is all the data. We filter it later
     dataframe_dict = {
         "population": df_2019_educators_population,
     #     "common_questions": common_questions_educators_2019,
