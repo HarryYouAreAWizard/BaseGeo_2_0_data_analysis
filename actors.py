@@ -11,6 +11,8 @@ structure and behavior of survey data, allowing for organized access to particip
 responses, question details, and overall survey management. The Participant class 
 represents individual respondents, the Question class handles the specifics of each 
 survey question, and the Survey class manages the collection of questions and participants.
+
+decrepreated in the ordinal regression analysis, but still used in the notebook for making simple histograms
 """
 
 import pandas as pd
@@ -24,6 +26,8 @@ class Participant:
     
     Could be used for conditional analysis, eg only count results if participant 
     responded "x" to question "A".
+
+    this is gracefully handled by pandas dataframe
     """
     def __init__(self, id, survey, answers):
         self.id = id
@@ -35,7 +39,7 @@ class Participant:
 
 
 class Question:
-    """Represents a question in survey and contain all relevant data"""
+    """Represents a question in survey and contain the reponses and axis (scale) information"""
     def __init__(self, key, responses, year=None):
         """is called from survey class."""
         self.year = year
@@ -137,11 +141,6 @@ class Survey:
             if self.path in affected_survey_paths:
                 affected_questions = predefined_axes[self.path].keys()
                 if question.raw_text in affected_questions:
-
-                    if question.raw_text == "How satisfied are you with the study environment?":
-                        print(f"{self.path = }")
-                        print("HERE")
-
                     print(f"{question.raw_text = }")
                     question.axis = predefined_axes[self.path][question.raw_text]#, predefined_axes[self.path][question.raw_text]
                     question.get_counts()
