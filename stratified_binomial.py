@@ -2,6 +2,8 @@
 
 
 import pymc as pm
+import numpy as np
+
 num_groups = 5
 # fit a simpler model for at every cutpoint
 # fit binary logistic regression models for each cutpoint of the ordinal response variable
