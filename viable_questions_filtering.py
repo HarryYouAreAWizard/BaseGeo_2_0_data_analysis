@@ -10,7 +10,7 @@ questions based on their viability for analysis.
 
 
 def get_scale(question, dataframe):
-    """get a prototype ofthe scale of a question in a dataframe
+    """get a prototype of the scale of a question in a dataframe
     
     This function is related to the detect_axis function in axis.py. However, 
     this one just finds which names are being used, but does not match anything
