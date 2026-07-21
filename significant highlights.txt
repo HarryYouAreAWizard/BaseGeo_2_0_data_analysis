@@ -1,0 +1,357 @@
+\subsection{educators}
+\subsubsection{The geoscience department at UiO}
+There is evidence supporting an odds ratio of 1/3.4 across all universities for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 1/4.4 for the participants at uib for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 1/4.3 for the participants at uio for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 1/4.4 for the participants at unis for the odds of responding 6 or above versus less than or equal to 5
+
+
+\subsubsection{The geoscience department at UiB}
+There is evidence supporting an odds ratio of 4.0 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/3.2 for the participants at uio across all categories. 
+
+
+\subsubsection{Other geoscience departments at non-Norwegian universities}
+There is evidence supporting an odds ratio of 1/2.4 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.6 for the participants at uibgeophys across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.8 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.5 for the participants at uit across all categories. 
+
+
+\subsubsection{Research institutions}
+There is evidence supporting an odds ratio of 1/2.1 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.2 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uit across all categories. 
+
+
+\subsubsection{Academic staff}
+There is evidence supporting an odds ratio of 2.4 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 3.1 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 2.8 for the participants at uibgeophys across all categories. 
+
+
+There is evidence supporting an odds ratio of 3.2 for the participants at unis across all categories. 
+
+
+\subsubsection{Students}
+There is evidence supporting an odds ratio of 2.9 across all universities for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 3.7 for the participants at uib for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 3.9 for the participants at unis for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 4.8 across all universities for the odds of responding 7 versus less than or equal to 6
+
+
+There is evidence supporting an odds ratio of 6.5 for the participants at uib for the odds of responding 7 versus less than or equal to 6
+
+
+There is evidence supporting an odds ratio of 5.2 for the participants at uibgeophys for the odds of responding 7 versus less than or equal to 6
+
+
+There is evidence supporting an odds ratio of 5.6 for the participants at uit for the odds of responding 7 versus less than or equal to 6
+
+
+There is evidence supporting an odds ratio of 5.6 for the participants at unis for the odds of responding 7 versus less than or equal to 6
+
+
+\subsubsection{Administrative/technical staff at the department}
+There is evidence supporting an odds ratio of 2.7 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 3.6 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 2.9 for the participants at uit across all categories. 
+
+
+There is evidence supporting an odds ratio of 4.8 for the participants at unis across all categories. 
+
+
+\subsubsection{The academic content}
+There is evidence supporting an odds ratio of 2.2 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 2.5 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 2.3 for the participants at uit across all categories. 
+
+
+There is evidence supporting an odds ratio of 2.8 for the participants at unis across all categories. 
+
+
+\subsubsection{Instruction and assessment methods}
+There is evidence supporting an odds ratio of 2.5 for the participants at uibgeophys across all categories. 
+
+
+\subsubsection{Students.1}
+There is evidence supporting an odds ratio of 2.1 for the participants at uib across all categories. 
+
+
+\subsubsection{My colleagues understand the problems I experience with regards to teaching}
+There is evidence supporting an odds ratio of 4.6 for the participants at uit for the odds of responding 7 versus less than or equal to 6
+
+
+There is evidence supporting an odds ratio of 6.8 for the participants at unis for the odds of responding 7 versus less than or equal to 6
+
+
+\subsubsection{I am confident in my abilities as a teacher}
+There is evidence supporting an odds ratio of 1/2.1 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.4 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.2 for the participants at uio across all categories. 
+
+
+\subsubsection{Written evaluations from students (course evaluations)}
+There is evidence supporting an odds ratio of 1/2.8 for the participants at uibgeophys across all categories. 
+
+
+\subsubsection{Guidance conversation with university educational expert}
+There is evidence supporting an odds ratio of 1/4.1 for the participants at uib for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/4.6 for the participants at uib for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/3.4 for the participants at uibgeophys for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/3.2 for the participants at uio for the odds of responding 4 or above versus less than or equal to 3
+
+
+\subsubsection{Understanding of the subject methods}
+There is evidence supporting an odds ratio of 1/2.7 for the participants at uib across all categories. 
+
+
+\subsubsection{Knowledge and understanding of processes in nature}
+There is evidence supporting an odds ratio of 1/4.3 for the participants at uib for the odds of responding 6 or above versus less than or equal to 5
+
+
+\subsubsection{Internships give students valuable experiences they cannot get at the university}
+There is evidence supporting an odds ratio of 3.7 for the participants at uit across all categories. 
+
+
+\subsubsection{Internships in the study programme comes at the expense of other important learning goals at the university}
+There is evidence supporting an odds ratio of 1/4.4 for the participants at uit across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/3.9 for the participants at unis across all categories. 
+
+
+\subsubsection{Students.2}
+There is evidence supporting an odds ratio of 2.5 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 3.0 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 3.4 for the participants at uit across all categories. 
+
+
+\clearpage\subsection{students}
+\subsubsection{Consist of courses that integrate well}
+There is evidence supporting an odds ratio of 2.8 for the participants at uio for the odds of responding 5 or above versus less than or equal to 4
+
+
+There is evidence supporting an odds ratio of 1/2.5 for the participants at uit for the odds of responding 5 or above versus less than or equal to 4
+
+
+\subsubsection{My teachers conveys confidence in my ability to do well in the courses}
+There is evidence supporting an odds ratio of 2.0 for the participants at uio across all categories. 
+
+
+\subsubsection{My teachers listen to how I like to do things}
+There is evidence supporting an odds ratio of 2.6 for the participants at uio across all categories. 
+
+
+\subsubsection{My teachers try to understand how I see things before suggesting a new way to do things}
+There is evidence supporting an odds ratio of 2.0 for the participants at uio across all categories. 
+
+
+\subsubsection{Group work}
+There is evidence supporting an odds ratio of 1/2.0 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.1 for the participants at uibgeophys across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/1.8 for the participants at uio across all categories. 
+
+
+\subsubsection{The teachers spend time discussing with us what characterises a good assignment}
+There is evidence supporting an odds ratio of 1/3.4 for the participants at uit for the odds of responding 2 or above versus 1
+
+
+There is evidence supporting an odds ratio of 1/3.4 for the participants at uit for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/2.6 for the participants at uit for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/2.7 for the participants at uit for the odds of responding 5 or above versus less than or equal to 4
+
+
+\subsubsection{Individual feedback from other students}
+There is evidence supporting an odds ratio of 1/3.0 for the participants at uib for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/3.4 for the participants at uio for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/3.1 for the participants at uit for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uib for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/2.4 for the participants at uit for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uib for the odds of responding 5 or above versus less than or equal to 4
+
+
+There is evidence supporting an odds ratio of 3.1 for the participants at uit for the odds of responding 7 versus less than or equal to 6
+
+
+\subsubsection{Conversations with teaching assistants}
+There is evidence supporting an odds ratio of 1/5.3 for the participants at uib for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/4.0 for the participants at uio for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/5.0 for the participants at uit for the odds of responding 3 or above versus less than or equal to 2
+
+
+There is evidence supporting an odds ratio of 1/5.6 for the participants at uib for the odds of responding 6 or above versus less than or equal to 5
+
+
+There is evidence supporting an odds ratio of 1/2.9 for the participants at uit for the odds of responding 4 or above versus less than or equal to 3
+
+
+There is evidence supporting an odds ratio of 1/3.2 for the participants at uit for the odds of responding 5 or above versus less than or equal to 4
+
+
+\subsubsection{I am capable of learning what is expected}
+There is evidence supporting an odds ratio of 1/3.1 for the participants at uit for the odds of responding 6 or above versus less than or equal to 5
+
+
+\subsubsection{I feel comfortable as a student here}
+There is evidence supporting an odds ratio of 1/1.9 for the participants at uit across all categories. 
+
+
+\subsubsection{I am satisfied with my studies}
+There is evidence supporting an odds ratio of 1/3.2 for the participants at uit across all categories. 
+
+
+\subsubsection{I find that competition among students is fierce}
+There is evidence supporting an odds ratio of 1/3.5 for the participants at uit across all categories. 
+
+
+\subsubsection{The possibilities for social contact with my fellow students are good}
+There is evidence supporting an odds ratio of 1/2.2 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.4 for the participants at uibgeophys across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.1 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.1 for the participants at uit across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at unis across all categories. 
+
+
+\subsubsection{Have you experienced feeling lonely in connection with your daily studies?}
+There is evidence supporting an odds ratio of 1/2.3 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/3.5 for the participants at uibgeophys across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.2 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.3 for the participants at uit across all categories. 
+
+
+\subsubsection{Have you experienced strong stress-related symptoms* in connection with your daily studies?}
+There is evidence supporting an odds ratio of 1/2.0 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/1.9 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.4 for the participants at uit across all categories. 
+
+
+\subsubsection{Have you experienced strong stress symptoms * in your study up to the exam?}
+There is evidence supporting an odds ratio of 1/1.8 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.2 for the participants at uit across all categories. 
+
+
+\subsubsection{I often consider dropping out of my courses}
+There is evidence supporting an odds ratio of 2.2 for the participants at uit across all categories. 
+
+
+\subsubsection{Sometimes I think about leaving the study programme}
+There is evidence supporting an odds ratio of 2.3 for the participants at uit across all categories. 
+
+
+\subsubsection{Internships give students valuable experiences they cannot get at the university}
+There is evidence supporting an odds ratio of 1/2.2 for the participants at uib across all categories. 
+
+
+\subsubsection{Internships make geoscience students more motivated}
+There is evidence supporting an odds ratio of 1/1.9 across all universities across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/2.1 for the participants at uib across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/1.9 for the participants at uio across all categories. 
+
+
+There is evidence supporting an odds ratio of 1/1.9 for the participants at uit across all categories. 
+
+
+\clearpage
