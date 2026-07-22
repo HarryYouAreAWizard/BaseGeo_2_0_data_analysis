@@ -34,11 +34,11 @@ year_2019 = 0
 year_2026 = 1
 
 def load_2019_data_students():
-    df_uib_2019_students_path = Path(".." / "2019data" / "uib_2019_students.xlsx")
-    df_uibgeophys_2019_students_path = Path(".." / "2019data" / "uibgeophys_2019_students.xlsx")
-    df_uio_2019_students_path = Path(".." / "2019data" / "uio_2019_students.xlsx")
-    df_uit_2019_students_path = Path(".." / "2019data" / "uit_2019_students.xlsx")
-    df_unis_2019_students_path = Path(".." / "2019data" / "unis_2019_students.xlsx")
+    df_uib_2019_students_path = Path("..") / "2019data" / "uib_2019_students.xlsx"
+    df_uibgeophys_2019_students_path = Path("..") / "2019data" / "uibgeophys_2019_students.xlsx"
+    df_uio_2019_students_path = Path("..") / "2019data" / "uio_2019_students.xlsx"
+    df_uit_2019_students_path = Path("..") / "2019data" / "uit_2019_students.xlsx"
+    df_unis_2019_students_path = Path("..") / "2019data" / "unis_2019_students.xlsx"
     df_uib_2019_students_raw = pd.read_excel(df_uib_2019_students_path)
     df_uibgeophys_2019_students_raw = pd.read_excel(df_uibgeophys_2019_students_path)
     df_uio_2019_students_raw = pd.read_excel(df_uio_2019_students_path)
@@ -78,11 +78,11 @@ def load_2019_data_students():
 
 def load_2019_data_educators():
     # load data
-    df_uib_2019_educators_path = Path(".." / "2019data" / "uib_2019_educators.xlsx")
-    df_uibgeophys_2019_educators_path = Path(".." / "2019data" / "uibgeophys_2019_educators.xlsx")
-    df_uio_2019_educators_path = Path(".." / "2019data" / "uio_2019_educators.xlsx")
-    df_uit_2019_educators_path = Path(".." / "2019data" / "uit_2019_educators.xlsx")
-    df_unis_2019_educators_path = Path(".." / "2019data" / "unis_2019_educators.xlsx")
+    df_uib_2019_educators_path = Path("..") / "2019data" / "uib_2019_educators.xlsx"
+    df_uibgeophys_2019_educators_path = Path("..") / "2019data" / "uibgeophys_2019_educators.xlsx"
+    df_uio_2019_educators_path = Path("..") / "2019data" / "uio_2019_educators.xlsx"
+    df_uit_2019_educators_path = Path("..") / "2019data" / "uit_2019_educators.xlsx"
+    df_unis_2019_educators_path = Path("..") / "2019data" / "unis_2019_educators.xlsx"
     df_uib_2019_educators_raw = pd.read_excel(df_uib_2019_educators_path)
     df_uibgeophys_2019_educators_raw = pd.read_excel(df_uibgeophys_2019_educators_path)
     df_uio_2019_educators_raw = pd.read_excel(df_uio_2019_educators_path)
@@ -145,16 +145,16 @@ def load_2019_data_educators():
 
 def load_2019_data_admintech():
     # load data
-    df_uib_2019_noneducators_path = Path(".." / "2019data" / "uib_2019_non_teaching_researcher.xlsx")
-    df_uibgeophys_noneducators_path = Path(".." / "2019data" / "uibgeophys_2019_non_teaching_researcher.xlsx")
-    df_uio_2019_noneducators_path = Path(".." / "2019data" / "uio_2019_non_teaching_researcher.xlsx")
-    df_uit_2019_noneducators_path = Path(".." / "2019data" / "uit_2019_non_teaching_researcher.xlsx")
-    df_unis_2019_noneducators_path = Path(".." / "2019data" / "unis_2019_non_teaching_researcher.xlsx")
-    df_uib_2019_admintech_path = Path(".." / "2019data" / "uib_2019_admintech.xlsx")
-    df_uibgeophys_2019_admintech_path = Path(".." / "2019data" / "uibgeophys_2019_admintech.xlsx")
-    df_uio_2019_admintech_path = Path(".." / "2019data" / "uio_2019_admintech.xlsx")
-    df_uit_2019_admintech_path = Path(".." / "2019data" / "uit_2019_admintech.xlsx")
-    df_unis_2019_admintech_path = Path(".." / "2019data" / "unis_2019_admintech.xlsx")
+    df_uib_2019_noneducators_path = Path("..") / "2019data" / "uib_2019_non_teaching_researcher.xlsx"
+    df_uibgeophys_noneducators_path = Path("..") / "2019data" / "uibgeophys_2019_non_teaching_researcher.xlsx"
+    df_uio_2019_noneducators_path = Path("..") / "2019data" / "uio_2019_non_teaching_researcher.xlsx"
+    df_uit_2019_noneducators_path = Path("..") / "2019data" / "uit_2019_non_teaching_researcher.xlsx"
+    df_unis_2019_noneducators_path = Path("..") / "2019data" / "unis_2019_non_teaching_researcher.xlsx"
+    df_uib_2019_admintech_path = Path("..") / "2019data" / "uib_2019_admintech.xlsx"
+    df_uibgeophys_2019_admintech_path = Path("..") / "2019data" / "uibgeophys_2019_admintech.xlsx"
+    df_uio_2019_admintech_path = Path("..") / "2019data" / "uio_2019_admintech.xlsx"
+    df_uit_2019_admintech_path = Path("..") / "2019data" / "uit_2019_admintech.xlsx"
+    df_unis_2019_admintech_path = Path("..") / "2019data" / "unis_2019_admintech.xlsx"
     df_uib_2019_noneducators_raw = pd.read_excel(df_uib_2019_noneducators_path)
     df_uibgeophys_noneducators_raw = pd.read_excel(df_uibgeophys_noneducators_path)
     df_uio_2019_noneducators_raw = pd.read_excel(df_uio_2019_noneducators_path)
@@ -210,7 +210,7 @@ def load_2019_data_admintech():
 
 def load_2026_data_students():
     # load data
-    df_2026_students_path = Path(".." / "2026data" / "data_2026_students.xlsx")
+    df_2026_students_path = Path("..") / "2026data" / "data_2026_students.xlsx"
     df_2026_students_raw = pd.read_excel(df_2026_students_path)
 
     # remove whitespace from the column names
@@ -235,7 +235,7 @@ def load_2026_data_students():
 
 def load_2026_data_educators():
     # load data
-    df_2026_educators_path = Path(".." / "2026data" / "data_2026_educators.xlsx")
+    df_2026_educators_path = Path("..") / "2026data" / "data_2026_educators.xlsx"
     df_2026_educators_raw = pd.read_excel(df_2026_educators_path)
 
     # remove whitespace from the column names
@@ -260,7 +260,7 @@ def load_2026_data_educators():
 
 def load_2026_data_admintech():
     # load data
-    df_2026_admintech_path = Path(".." / "2026data" / "data_2026_admintech.xlsx")
+    df_2026_admintech_path = Path("..") / "2026data" / "data_2026_admintech.xlsx"
     df_2026_admintech_raw = pd.read_excel(df_2026_admintech_path)
 
     # remove whitespace from the column names
@@ -379,11 +379,11 @@ def load_loose_educators_data_2019():
     merging of questions that are not exactly the same in all surveys.
     """
 
-    df_uib_2019_educators_path = Path(".." / "2019data" / "uib_2019_educators.xlsx")
-    df_uibgeophys_2019_educators_path = Path(".." / "2019data" / "uibgeophys_2019_educators.xlsx")
-    df_uio_2019_educators_path = Path(".." / "2019data" / "uio_2019_educators.xlsx")
-    df_uit_2019_educators_path = Path(".." / "2019data" / "uit_2019_educators.xlsx")
-    df_unis_2019_educators_path = Path(".." / "2019data" / "unis_2019_educators.xlsx")
+    df_uib_2019_educators_path = Path("..") / "2019data" / "uib_2019_educators.xlsx"
+    df_uibgeophys_2019_educators_path = Path("..") / "2019data" / "uibgeophys_2019_educators.xlsx"
+    df_uio_2019_educators_path = Path("..") / "2019data" / "uio_2019_educators.xlsx"
+    df_uit_2019_educators_path = Path("..") / "2019data" / "uit_2019_educators.xlsx"
+    df_unis_2019_educators_path = Path("..") / "2019data" / "unis_2019_educators.xlsx"
     df_uib_2019_educators_raw = pd.read_excel(df_uib_2019_educators_path)
     df_uibgeophys_2019_educators_raw = pd.read_excel(df_uibgeophys_2019_educators_path)
     df_uio_2019_educators_raw = pd.read_excel(df_uio_2019_educators_path)
@@ -455,11 +455,11 @@ def load_loose_educators_data_2019():
 def load_loose_students_data_2019():
     """Load all the data from 2019 survey. Use special cases to allow
     merging of questions that are not exactly the same in all surveys."""
-    df_uib_2019_students_path = Path(".." / "2019data" / "uib_2019_students.xlsx")
-    df_uibgeophys_2019_students_path = Path(".." / "2019data" / "uibgeophys_2019_students.xlsx")
-    df_uio_2019_students_path = Path(".." / "2019data" / "uio_2019_students.xlsx")
-    df_uit_2019_students_path = Path(".." / "2019data" / "uit_2019_students.xlsx")
-    df_unis_2019_students_path = Path(".." / "2019data" / "unis_2019_students.xlsx")
+    df_uib_2019_students_path = Path("..") / "2019data" / "uib_2019_students.xlsx"
+    df_uibgeophys_2019_students_path = Path("..") / "2019data" / "uibgeophys_2019_students.xlsx"
+    df_uio_2019_students_path = Path("..") / "2019data" / "uio_2019_students.xlsx"
+    df_uit_2019_students_path = Path("..") / "2019data" / "uit_2019_students.xlsx"
+    df_unis_2019_students_path = Path("..") / "2019data" / "unis_2019_students.xlsx"
     df_uib_2019_students_raw = pd.read_excel(df_uib_2019_students_path)
     df_uibgeophys_2019_students_raw = pd.read_excel(df_uibgeophys_2019_students_path)
     df_uio_2019_students_raw = pd.read_excel(df_uio_2019_students_path)
@@ -519,16 +519,16 @@ def load_loose_students_data_2019():
 
 def load_loose_admintech_data_2019():
     # load data
-    df_uib_2019_noneducators_path = Path(".." / "2019data" / "uib_2019_non_teaching_researcher.xlsx")
-    df_uibgeophys_noneducators_path = Path(".." / "2019data" / "uibgeophys_2019_non_teaching_researcher.xlsx")
-    df_uio_2019_noneducators_path = Path(".." / "2019data" / "uio_2019_non_teaching_researcher.xlsx")
-    df_uit_2019_noneducators_path = Path(".." / "2019data" / "uit_2019_non_teaching_researcher.xlsx")
-    df_unis_2019_noneducators_path = Path(".." / "2019data" / "unis_2019_non_teaching_researcher.xlsx")
-    df_uib_2019_admintech_path = Path(".." / "2019data" / "uib_2019_admintech.xlsx")
-    df_uibgeophys_2019_admintech_path = Path(".." / "2019data" / "uibgeophys_2019_admintech.xlsx")
-    df_uio_2019_admintech_path = Path(".." / "2019data" / "uio_2019_admintech.xlsx")
-    df_uit_2019_admintech_path = Path(".." / "2019data" / "uit_2019_admintech.xlsx")
-    df_unis_2019_admintech_path = Path(".." / "2019data" / "unis_2019_admintech.xlsx")
+    df_uib_2019_noneducators_path = Path("..") / "2019data" / "uib_2019_non_teaching_researcher.xlsx"
+    df_uibgeophys_noneducators_path = Path("..") / "2019data" / "uibgeophys_2019_non_teaching_researcher.xlsx"
+    df_uio_2019_noneducators_path = Path("..") / "2019data" / "uio_2019_non_teaching_researcher.xlsx"
+    df_uit_2019_noneducators_path = Path("..") / "2019data" / "uit_2019_non_teaching_researcher.xlsx"
+    df_unis_2019_noneducators_path = Path("..") / "2019data" / "unis_2019_non_teaching_researcher.xlsx"
+    df_uib_2019_admintech_path = Path("..") / "2019data" / "uib_2019_admintech.xlsx"
+    df_uibgeophys_2019_admintech_path = Path("..") / "2019data" / "uibgeophys_2019_admintech.xlsx"
+    df_uio_2019_admintech_path = Path("..") / "2019data" / "uio_2019_admintech.xlsx"
+    df_uit_2019_admintech_path = Path("..") / "2019data" / "uit_2019_admintech.xlsx"
+    df_unis_2019_admintech_path = Path("..") / "2019data" / "unis_2019_admintech.xlsx"
     df_uib_2019_noneducators_raw = pd.read_excel(df_uib_2019_noneducators_path)
     df_uibgeophys_2019_noneducators_raw = pd.read_excel(df_uibgeophys_noneducators_path)
     df_uio_2019_noneducators_raw = pd.read_excel(df_uio_2019_noneducators_path)
@@ -612,7 +612,7 @@ def load_loose_admintech_data_2019():
 
 def load_loose_educators_data_2026():
     # load data
-    df_2026_educators_path = Path(".." / "2026data" / "data_2026_educators.xlsx")
+    df_2026_educators_path = Path("..") / "2026data" / "data_2026_educators.xlsx"
     df_2026_educators_raw = pd.read_excel(df_2026_educators_path)
 
     # remove whitespace from the column names
@@ -637,7 +637,7 @@ def load_loose_educators_data_2026():
 
 def load_loose_students_data_2026():
     # load data
-    df_2026_students_path = Path(".." / "2026data" / "data_2026_students.xlsx")
+    df_2026_students_path = Path("..") / "2026data" / "data_2026_students.xlsx"
     df_2026_students_raw = pd.read_excel(df_2026_students_path)
 
     # remove whitespace from the column names
@@ -662,7 +662,7 @@ def load_loose_students_data_2026():
 
 def load_loose_admintech_data_2026():
     # load data
-    df_2026_admintech_path = Path(".." / "2026data" / "data_2026_admintech.xlsx")
+    df_2026_admintech_path = Path("..") / "2026data" / "data_2026_admintech.xlsx"
     df_2026_admintech_raw = pd.read_excel(df_2026_admintech_path)
 
     # remove whitespace from the column names
