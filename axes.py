@@ -5,9 +5,14 @@
 File: axes.py
 Author: Noah Nielsen
 Created: 2026-04-18
-Description: This module provides functions for normalizing survey responses, 
-detecting which axis they belong to, and extracting counts for each response 
-category. It handles various formats of survey responses and maps them to predefined axes for analysis.
+
+Description: This module provides functions for detecting the Likert scale axes.
+It handles various formats of survey responses and maps them to predefined axes 
+for analysis.
+
+The axis (scale) detection is used for two things:
+ - To determine whether the reponses for a pair of question is the same before analysis.
+ - To clean the axis presented in the shared histogram plots. 
 """
 
 import pandas as pd
@@ -41,12 +46,7 @@ def detect_axis(values):
     """
     Detect which axis a set of values belongs to, based on the predefined AXES.
 
-    returns botht the clean and the raw detected axis
-
-    Returns the axis name, the labels for that axis, and any unmatched labels.
-     - If exactly one axis matches, returns that axis and its labels.
-     - If no axes match, returns "unknown" and the unique normalized labels.
-     - If multiple axes match (should not happen if axes are disjoint), returns "ambiguous".
+    returns the clean axis
 
     This function fails to detect it, if there are multiple fits
 
@@ -59,8 +59,7 @@ def detect_axis(values):
     for axis_type in AXES.keys(): # frequency, importance, extent ...
         for axis_variation, axis_labels in AXES[axis_type].items(): # clean, with doubt, with typo ...
 
-            # special cases
-            # if numeric
+            # special case: if numeric
             labels = [str(label) for label in labels]
             # still check last option from clean axis. it might be 7.0
             if "7.0" in labels or "6.0" in labels:
@@ -73,13 +72,11 @@ def detect_axis(values):
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
             
-            # try seeing if the first option from the clean axis is present in the responses (1. Strongly disagree, 1. Extremely little ...)
+            # try seeing if the first option is present in the responses (1. Strongly disagree, 1. Extremely little ...)
             if axis_labels[0] in labels:
                 axis = axis_type, AXES[axis_type][axis_type] # pick clean version
                 return axis
         
-       
-            
     # not all questions have well defined axes
     return None
 
@@ -88,7 +85,10 @@ def extract_counts(values):
     Given a list of raw values, normalize them and detect which axis they belong to.
     
     Decrepreated in favor of the objected oriented approach
+
+    not used in any of the function anywhere
     """
+    return 
     normalized = [normalize_answer(v) for v in values]
     axis_name, axis_labels, unmatched = detect_axis(values)
 

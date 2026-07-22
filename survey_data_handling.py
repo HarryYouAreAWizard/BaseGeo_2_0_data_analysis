@@ -106,7 +106,9 @@ def load_2019_data_educators():
         "To what extent does the education at your institution prepare students for their future work in geoscience?":
             "To what extent do you think the education at your institution prepare students for their future work in geoscience?",
         "Informal feedback from students":
-            "Informal feed-back from students"
+            "Informal feed-back from students",
+        "That a colleague is present while you teach and afterwards gives you feedback (peer review)":
+            "That a colleague is present while you teach and afterwards gives you feedback (peer feedback)",
     }
 
     # rename columns in the dataframes based on the special cases

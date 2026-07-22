@@ -5,7 +5,10 @@
 """some axes end up not getting an axis because they coincidencially does not have any responses 
 that uniquely identifies the axis
 
-following is a dictionary where with predefined axes"""
+following is a dictionary where with predefined axes
+
+Decrepreated. Were used in the object oriented approach. 
+"""
 
 from axes_container import *
 

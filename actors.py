@@ -39,7 +39,8 @@ class Participant:
 
 
 class Question:
-    """Represents a question in survey and contain the reponses and axis (scale) information"""
+    """Represents a question in survey and contain the 
+    reponses and axis (scale) information"""
     def __init__(self, key, responses, year=None):
         """is called from survey class."""
         self.year = year
