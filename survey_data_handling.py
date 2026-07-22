@@ -444,6 +444,7 @@ def load_loose_educators_data_2019():
 
     df_2019_educators_population = convert_text_university_to_numeric_2019_educators(df_2019_educators_population)
 
+    return df_2019_educators_population
     # only save "population", which is all the data. We filter it later
     dataframe_dict = {
         "population": df_2019_educators_population,
@@ -509,7 +510,7 @@ def load_loose_students_data_2019():
 
     df_2019_students_population = convert_text_university_to_numeric_2019_students(df_2019_students_population)
 
-
+    return df_2019_students_population
     dataframe_dict = {
         "population": df_2019_students_population,
     }
@@ -599,7 +600,7 @@ def load_loose_admintech_data_2019():
     
     df_2019_admintech = convert_text_university_to_numeric_2019_admintech(df_2019_admintech)
 
-
+    return df_2019_admintech
     dataframe_dict = {
         "population": df_2019_admintech,
     }
