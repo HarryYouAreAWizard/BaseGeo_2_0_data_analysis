@@ -56,16 +56,6 @@ def make_model(question, dataframe, quiet=False):
         # likelihood
         y = pm.OrderedLogistic("y", cutpoints=cutpoints, eta=predictor, observed=dataframe[question].values.astype(np.int64))
 
-
-        # relics. year is now either 0 or 1. previously they were 0 and 7
-        # still used in some tests
-        effect_after_7_years_groups = pm.Deterministic(
-            "effect_after_7_years_groups", slope_groups
-        )
-        effect_after_7_years_population = pm.Deterministic(
-            "effect_after_7_years_population", slope_mu
-        )
-
         # calculate odds ratios for population and groups
         odds_ratio_population = pm.Deterministic(
             "odds_ratio_population", pm.math.exp(slope_mu)
