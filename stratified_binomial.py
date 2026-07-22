@@ -28,5 +28,12 @@ def make_binary_split_model(question, dataframe, cutpoint_j, quiet=False):
         predictor = intercept_groups[group_idx] + slope_groups[group_idx] * year_vec
         y = pm.Bernoulli("y", logit_p=predictor, observed=y_binary)
 
-        idata = pm.sample(nuts_sampler="numpyro", draws=2000, tune=2000, target_accept=0.99, quiet=quiet)
+        idata = pm.sample(
+            nuts_sampler="numpyro", 
+            draws=2000, 
+            tune=2000, 
+            target_accept=0.99, 
+            quiet=quiet,
+            chains=4,
+            cores=4)
     return idata, model
