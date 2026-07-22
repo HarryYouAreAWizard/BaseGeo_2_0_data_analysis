@@ -69,7 +69,9 @@ def make_model(question, dataframe, quiet=False):
             draws=2000,
             tune=2000,
             target_accept=0.995,
-            quiet=quiet,)
+            quiet=quiet,
+            chains=4,
+            cores=4,)
         
        
     return idata, model
