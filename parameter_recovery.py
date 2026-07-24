@@ -17,8 +17,7 @@ year_2026 = 1
 
 # simulate a survey with distinct values for each group and year, and then fit the model to see if it can recover the parameters.
 
-def make_data(shift):
-    n_samples = 1000
+def make_data(shift, n_samples=1000):
     year = np.random.choice([year_2019, year_2026], size=n_samples)
     institution = np.random.choice([0, 1, 2, 3, 4], size=n_samples)
     
@@ -38,7 +37,9 @@ def make_data(shift):
     latent_rating = base_score + interaction_effect + noise
     
     # map to some choice Ordinal Categories using Thresholds (Cutpoints)
+    # everything below 1.5 is category 1, everything between 1.5 and 2.5 is category 2, etc.
     thresholds = [1.5, 2.5, 3.8, 4.5, 5.5, 6.5]
+    thresholds = np.arange(1.5, 7.0, 1.0)  # [1.5, 2.5, 3.5, 4.5, 5.5, 6.5]
     
     # np.digitize returns indices from 0 to len(thresholds)
     # Adding 1 converts it to a 1-7 scale rating
