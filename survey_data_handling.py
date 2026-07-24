@@ -12,19 +12,25 @@ data, using pandas dataframe
 
 import pandas as pd
 from pathlib import Path
-# we need to describe the instiution with an index
+
+# we need to describe the instiution with an index in pymc
 map_institution = {
+
     "uib": 0,
     "UiB": 0,
     "UiB Geovitenskap": 0,
+
     "uibgeophys": 1,
     "UiB Geophysics": 1,
     "UiB: Geophysical Institute": 1,
     "UiB Geofysikk": 1,
+
     "uio": 2,
     "UiO": 2,
+
     "uit": 3,
     "UiT": 3,
+
     "unis": 4,
     "UNIS": 4,
 }
@@ -45,7 +51,7 @@ def load_2019_data_students():
     df_uit_2019_students_raw = pd.read_excel(df_uit_2019_students_path)
     df_unis_2019_students_raw = pd.read_excel(df_unis_2019_students_path)
 
-    # remove whirtespace from the column names
+    # remove whitespace from the column names
     df_uib_2019_students_raw.columns = df_uib_2019_students_raw.columns.str.strip()
     df_uibgeophys_2019_students_raw.columns = df_uibgeophys_2019_students_raw.columns.str.strip()
     df_uio_2019_students_raw.columns = df_uio_2019_students_raw.columns.str.strip()
@@ -66,15 +72,11 @@ def load_2019_data_students():
     df_2019_students["year"] = year_2019
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_students(df):
-        df["institution"] = df["Which of these educational institutions are you studying at?"].replace(
-            map_institution
-        )
-        return df
+    df_2019_students["institution"] = df_2019_students["Which of these educational institutions are you studying at?"].replace(
+        map_institution
+    )
 
-    df_2019_students = convert_text_university_to_numeric_2019_students(df_2019_students)
-
-    return df_2019_students#, common_questions_students_2019
+    return df_2019_students   
 
 def load_2019_data_educators():
     # load data
@@ -134,14 +136,10 @@ def load_2019_data_educators():
     df_2019_educators["year"] = year_2019
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_educators(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
-
-    df_2019_educators = convert_text_university_to_numeric_2019_educators(df_2019_educators)
-    return df_2019_educators#, common_questions_educators_2019
+    df_2019_educators["institution"] = df_2019_educators["Where are you employed?"].replace(
+        map_institution
+    )
+    return df_2019_educators
 
 def load_2019_data_admintech():
     # load data
@@ -198,13 +196,10 @@ def load_2019_data_admintech():
     df_2019_admintech["year"] = year_2019
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_admintech(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
+    df_2019_admintech["institution"] = df_2019_admintech["Where are you employed?"].replace(
+        map_institution
+    )
 
-    df_2019_admintech = convert_text_university_to_numeric_2019_admintech(df_2019_admintech)
     return df_2019_admintech#, common_questions_2019_admintech
 
 
@@ -224,13 +219,10 @@ def load_2026_data_students():
     df_2026_students["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you studying?"].replace(
-            map_institution
-        )
-        return df
+    df_2026_students["institution"] = df_2026_students["Where are you studying?"].replace(
+        map_institution
+    )
 
-    df_2026_students = convert_text_university_to_numeric_2026(df_2026_students)
     return df_2026_students
 
 def load_2026_data_educators():
@@ -249,13 +241,10 @@ def load_2026_data_educators():
     df_2026_educators["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
-
-    df_2026_educators = convert_text_university_to_numeric_2026(df_2026_educators)
+    df_2026_educators["institution"] = df_2026_educators["Where are you employed?"].replace(
+        map_institution
+    )
+    
     return df_2026_educators
 
 def load_2026_data_admintech():
@@ -274,13 +263,10 @@ def load_2026_data_admintech():
     df_2026_admintech["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
+    df_2026_admintech["institution"] = df_2026_admintech["Where are you employed?"].replace(
+        map_institution
+    )
 
-    df_2026_admintech = convert_text_university_to_numeric_2026(df_2026_admintech)
     return df_2026_admintech
 
 
@@ -426,7 +412,7 @@ def load_loose_educators_data_2019():
 
     # merge dataframes, only keeping the questions that are available in all dataframes
     # however, now the questions are renamed beforehand to match
-    df_2019_educators_population = pd.concat([
+    df_2019_educators = pd.concat([
         df_uib_2019_educators_raw, 
         df_uibgeophys_2019_educators_raw, 
         df_uio_2019_educators_raw, 
@@ -437,20 +423,11 @@ def load_loose_educators_data_2019():
 
    
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_educators(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
+    df_2019_educators["institution"] = df_2019_educators["Where are you employed?"].replace(
+        map_institution
+    )
 
-    df_2019_educators_population = convert_text_university_to_numeric_2019_educators(df_2019_educators_population)
-
-    return df_2019_educators_population
-    # only save "population", which is all the data. We filter it later
-    dataframe_dict = {
-        "population": df_2019_educators_population,
-    }
-    return dataframe_dict
+    return df_2019_educators
 
 def load_loose_students_data_2019():
     """Load all the data from 2019 survey. Use special cases to allow
@@ -491,31 +468,21 @@ def load_loose_students_data_2019():
 
     # merge dataframes, only keeping the questions that are available in all dataframes
     # however, now the questions are renamed beforehand to match
-    df_2019_students_population = pd.concat([
+    df_2019_students = pd.concat([
         df_uib_2019_students_raw,
         df_uibgeophys_2019_students_raw,
         df_uio_2019_students_raw,
         df_uit_2019_students_raw,
         df_unis_2019_students_raw
     ], ignore_index=True,
-        join="inner") # <- replaces the many lines of code above
+        join="inner") 
 
-    
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_students(df):
-        df["institution"] = df["Which of these educational institutions are you studying at?"].replace(
-            map_institution
-        )
-        return df
+    df_2019_students["institution"] = df_2019_students["Which of these educational institutions are you studying at?"].replace(
+        map_institution
+    )
 
-
-    df_2019_students_population = convert_text_university_to_numeric_2019_students(df_2019_students_population)
-
-    return df_2019_students_population
-    dataframe_dict = {
-        "population": df_2019_students_population,
-    }
-    return dataframe_dict
+    return df_2019_students
 
 def load_loose_admintech_data_2019():
     # load data
@@ -593,21 +560,10 @@ def load_loose_admintech_data_2019():
     df_2019_admintech["year"] = year_2019
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2019_admintech(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
-    
-    df_2019_admintech = convert_text_university_to_numeric_2019_admintech(df_2019_admintech)
-
+    df_2019_admintech["institution"] = df_2019_admintech["Where are you employed?"].replace(
+        map_institution
+    )
     return df_2019_admintech
-    dataframe_dict = {
-        "population": df_2019_admintech,
-    }
-    return dataframe_dict
-
-
 
 
 def load_loose_educators_data_2026():
@@ -626,13 +582,10 @@ def load_loose_educators_data_2026():
     df_2026_educators["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
+    df_2026_educators["institution"] = df_2026_educators["Where are you employed?"].replace(
+        map_institution
+    )
 
-    df_2026_educators = convert_text_university_to_numeric_2026(df_2026_educators)
     return df_2026_educators
 
 def load_loose_students_data_2026():
@@ -651,13 +604,10 @@ def load_loose_students_data_2026():
     df_2026_students["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you studying?"].replace(
-            map_institution
-        )
-        return df
+    df_2026_students["institution"] = df_2026_students["Where are you studying?"].replace(
+        map_institution
+    )
 
-    df_2026_students = convert_text_university_to_numeric_2026(df_2026_students)
     return df_2026_students
 
 def load_loose_admintech_data_2026():
@@ -676,11 +626,8 @@ def load_loose_admintech_data_2026():
     df_2026_admintech["year"] = year_2026
 
     # add a column with the institution index
-    def convert_text_university_to_numeric_2026(df):
-        df["institution"] = df["Where are you employed?"].replace(
-            map_institution
-        )
-        return df
+    df_2026_admintech["institution"] = df_2026_admintech["Where are you employed?"].replace(
+        map_institution
+    )
 
-    df_2026_admintech = convert_text_university_to_numeric_2026(df_2026_admintech)
     return df_2026_admintech
