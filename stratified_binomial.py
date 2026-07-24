@@ -8,7 +8,7 @@ num_groups = 5
 # fit a simpler model for at every cutpoint
 # fit binary logistic regression models for each cutpoint of the ordinal response variable
 def make_binary_split_model(question, dataframe, cutpoint_j, quiet=False):
-    y_binary = (dataframe[question].values > cutpoint_j).astype(np.int64)  # Y = j vs Y =< j
+    y_binary = (dataframe[question].values > cutpoint_j).astype(np.int64)  # Y > j vs Y =< j
     group_idx = dataframe.institution.values
     year_vec = dataframe.year.values
 
